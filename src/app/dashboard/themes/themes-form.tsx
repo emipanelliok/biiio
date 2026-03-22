@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Check, Smartphone, X } from "lucide-react";
+import { Check } from "lucide-react";
 import { saveAppearance } from "./actions";
 
 const themes = [
@@ -78,9 +78,8 @@ export default function ThemesForm({ initial }: Props) {
   const [hexInput,     setHexInput]     = useState(initial.buttonColor);
   const [markerColor,  setMarkerColor]  = useState(initial.markerColor);
   const [headerStyle,  setHeaderStyle]  = useState(initial.headerStyle);
-  const [saving,      setSaving]      = useState(false);
-  const [saved,       setSaved]       = useState(false);
-  const [showPreview, setShowPreview] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saved,  setSaved]  = useState(false);
 
   function handleColorSwatch(c: string) {
     setActiveColor(c);
@@ -133,7 +132,33 @@ export default function ThemesForm({ initial }: Props) {
         {/* Left content */}
         <div className="flex-1 px-4 md:px-10 py-6 md:py-8 overflow-y-auto">
 
-          {/* ── Header Pattern ── */}
+            {/* ── Mobile phone preview (inline, only on mobile) ── */}
+          <div className="lg:hidden flex flex-col items-center mb-6">
+            <div className="w-[180px]">
+              <div className="rounded-[2rem] border-[5px] border-[#1a1c1c] overflow-hidden shadow-2xl" style={{ height: 360, backgroundColor: currentTheme.bg }}>
+                <div className="w-full h-14" style={{ background: currentHeader.bg }} />
+                <div className="px-3 -mt-5 pb-3 flex flex-col items-start gap-1.5">
+                  <div className="p-1 rounded-xl bg-white shadow-lg">
+                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#d2aef8] to-[#91cefb]" />
+                  </div>
+                  <p className="font-black text-xs tracking-tight" style={{ color: isDark ? "#fff" : "#1c1b1b" }}>
+                    Alex <span className="relative inline z-[1]">Rivers<span className="absolute left-[-3px] right-[-3px] bottom-[1px] h-[45%] z-[-1] rounded-[2px]" style={{ backgroundColor: markerColor, transform: "rotate(-1.5deg)" }} /></span>
+                  </p>
+                  <p className="text-[8px] mb-1" style={{ color: isDark ? "#888" : "#7c7480" }}>Digital Curator & Designer</p>
+                  <div className="flex flex-col gap-1.5 w-full">
+                    {previewLabels.map((label) => (
+                      <div key={label} className="w-full py-2 px-3 text-center text-[9px] font-bold"
+                        style={getButtonStyle(activeRound, activeShadow, activeStyle, activeColor)}
+                      >{label}</div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-[#7c7480] mt-3">Live Preview</p>
+          </div>
+
+        {/* ── Header Pattern ── */}
           <div className="bg-white rounded-3xl p-5 md:p-8 shadow-[0_20px_40px_rgba(26,28,28,0.04)] mb-6 md:mb-8">
             <h3 className="font-black text-lg md:text-xl tracking-tighter text-[#1a1c1c] mb-1">
               Header <span className="marker marker-violet">Cover</span>
@@ -329,48 +354,6 @@ export default function ThemesForm({ initial }: Props) {
           <p className="text-[10px] font-bold uppercase tracking-widest text-[#7c7480] mt-4">Live Preview</p>
         </div>
       </div>
-
-      {/* Mobile preview floating button */}
-      <button
-        onClick={() => setShowPreview(true)}
-        className="lg:hidden fixed bottom-28 right-4 z-50 flex items-center gap-2 px-4 py-3 bg-[#1a1c1c] text-white rounded-full shadow-xl text-sm font-bold"
-      >
-        <Smartphone className="w-4 h-4" />
-        Preview
-      </button>
-
-      {/* Mobile preview modal */}
-      {showPreview && (
-        <div className="lg:hidden fixed inset-0 z-[60] bg-black/60 flex items-end justify-center" onClick={() => setShowPreview(false)}>
-          <div className="bg-[#f3f3f3] rounded-t-3xl p-6 w-full flex flex-col items-center gap-4" onClick={e => e.stopPropagation()}>
-            <div className="flex items-center justify-between w-full">
-              <p className="text-xs font-bold uppercase tracking-widest text-[#7c7480]">Live Preview</p>
-              <button onClick={() => setShowPreview(false)} className="text-[#7c7480] hover:text-[#1a1c1c]"><X className="w-5 h-5" /></button>
-            </div>
-            <div className="w-[200px]">
-              <div className="rounded-[2rem] border-[5px] border-[#1a1c1c] overflow-hidden shadow-2xl" style={{ height: 400, backgroundColor: currentTheme.bg }}>
-                <div className="w-full h-16" style={{ background: currentHeader.bg }} />
-                <div className="px-4 -mt-6 pb-4 flex flex-col items-start gap-2">
-                  <div className="p-1 rounded-xl bg-white shadow-lg">
-                    <div className="w-11 h-11 rounded-lg bg-gradient-to-br from-[#d2aef8] to-[#91cefb]" />
-                  </div>
-                  <p className="font-black text-sm tracking-tight" style={{ color: isDark ? "#fff" : "#1c1b1b" }}>
-                    Alex <span className="relative inline z-[1]">Rivers<span className="absolute left-[-3px] right-[-3px] bottom-[1px] h-[45%] z-[-1] rounded-[2px]" style={{ backgroundColor: markerColor, transform: "rotate(-1.5deg)" }} /></span>
-                  </p>
-                  <p className="text-[9px] mb-1" style={{ color: isDark ? "#888" : "#7c7480" }}>Digital Curator & Designer</p>
-                  <div className="flex flex-col gap-2 w-full">
-                    {previewLabels.map((label) => (
-                      <div key={label} className="w-full py-2.5 px-3 text-center text-[10px] font-bold"
-                        style={getButtonStyle(activeRound, activeShadow, activeStyle, activeColor)}
-                      >{label}</div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Save bar */}
       <div className="sticky bottom-0 bg-[#1a1c1c] px-4 md:px-10 py-3 md:py-4 flex items-center justify-between z-40 mb-24 md:mb-0">
