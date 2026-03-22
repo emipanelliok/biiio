@@ -123,29 +123,11 @@ export default function LandingPage() {
 
         {/* Phone mockup — hand hero */}
         <div className="relative flex justify-center items-center h-[480px] md:h-[560px] animate-in delay-2">
-          {/* Small floating card — celular2 top left */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/mockups/celular2.png"
-            alt="Biiio profile mockup"
-            className="absolute w-[140px] md:w-[160px] object-contain drop-shadow-xl"
-            style={{ transform: "rotate(-8deg)", top: "10px", left: "0px", zIndex: 1, opacity: 0.9 }}
-          />
-          {/* Main: celular4 (hand) — large and centered */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/mockups/celular4.png"
             alt="Biiio profile mockup"
-            className="relative w-[380px] md:w-[460px] object-contain drop-shadow-2xl"
-            style={{ zIndex: 3 }}
-          />
-          {/* Small floating card — celular1 bottom right */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/mockups/celular1.png"
-            alt="Biiio profile mockup"
-            className="absolute w-[140px] md:w-[160px] object-contain drop-shadow-xl"
-            style={{ transform: "rotate(6deg)", bottom: "10px", right: "0px", zIndex: 2, opacity: 0.9 }}
+            className="w-[400px] md:w-[480px] object-contain drop-shadow-2xl"
           />
         </div>
       </section>
@@ -314,10 +296,10 @@ export default function LandingPage() {
       </section>
 
       {/* ── Testimonials ── */}
-      <section className="py-20 md:py-24 overflow-hidden bg-[#1c1b1b]">
+      <section className="py-20 md:py-24 overflow-hidden bg-[#f3f3f3]">
         <div className="text-center mb-12 px-6">
-          <p className="text-xs font-bold uppercase tracking-widest text-[#4a4455] mb-4">{t.testimonials.label}</p>
-          <h2 className="font-black text-4xl md:text-5xl tracking-tighter text-white">
+          <p className="text-xs font-bold uppercase tracking-widest text-[#7b7487] mb-4">{t.testimonials.label}</p>
+          <h2 className="font-black text-4xl md:text-5xl tracking-tighter text-[#1c1b1b]">
             {t.testimonials.h2} <span className="marker">{t.testimonials.h2mark}</span>
           </h2>
         </div>
