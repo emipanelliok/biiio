@@ -23,7 +23,7 @@ function getButtonStyle(round: string, style: string, color: string, isFirst: bo
     round === "Square" ? "4px" :
     "4px"; // Hard Shadow
 
-  const shadow = round === "Hard Shadow" ? `4px 4px 0px ${color}` : "none";
+  const shadow = round === "Hard Shadow" ? "4px 4px 0px #1a1c1c" : "none";
 
   if (style === "Bold") {
     return {
@@ -58,6 +58,7 @@ export default function ThemesPage() {
   const [activeRound, setActiveRound] = useState("Rounded");
   const [activeStyle, setActiveStyle] = useState("Bold");
   const [activeColor, setActiveColor] = useState("#d2aef8");
+  const [markerColor, setMarkerColor] = useState("#d2aef8");
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
 
@@ -200,6 +201,52 @@ export default function ThemesPage() {
               </div>
             </div>
           </div>
+
+          {/* Marker Color */}
+          <div className="bg-white rounded-3xl p-8 shadow-[0_20px_40px_rgba(26,28,28,0.04)] mt-8">
+            <h3 className="font-black text-xl tracking-tighter text-[#1a1c1c] mb-2 flex items-center gap-2">
+              ✦ Marker Highlight
+            </h3>
+            <p className="text-[#7b7487] text-sm mb-6">Your signature highlight color. This is applied to your name and key text.</p>
+
+            <div className="flex gap-4 items-center">
+              {[
+                { color: "#d2aef8", label: "Violet" },
+                { color: "#f7d59e", label: "Yellow" },
+                { color: "#91cefb", label: "Cyan" },
+                { color: "#f09ba4", label: "Pink" },
+              ].map(({ color, label }) => (
+                <button
+                  key={color}
+                  onClick={() => setMarkerColor(color)}
+                  className="flex flex-col items-center gap-2 group"
+                >
+                  <div
+                    className="w-12 h-12 rounded-2xl transition-transform hover:scale-110"
+                    style={{
+                      backgroundColor: color,
+                      border: markerColor === color ? "3px solid #1a1c1c" : "3px solid transparent",
+                      outline: markerColor === color ? "2px solid white" : "none",
+                    }}
+                  />
+                  <span className="text-[10px] font-bold text-[#7c7480] uppercase">{label}</span>
+                </button>
+              ))}
+            </div>
+
+            {/* Preview */}
+            <div className="mt-6 p-5 bg-[#f3f3f3] rounded-2xl">
+              <p className="font-black text-2xl tracking-tight text-[#1c1b1b]">
+                Your <span className="relative inline z-[1]">
+                  Name
+                  <span
+                    className="absolute left-[-4px] right-[-4px] bottom-[2px] h-[45%] z-[-1] rounded-[3px]"
+                    style={{ backgroundColor: markerColor, transform: "rotate(-1.5deg)" }}
+                  />
+                </span>
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Right: phone preview */}
@@ -220,7 +267,7 @@ export default function ThemesPage() {
 
                 {/* Name */}
                 <p className="font-black text-sm tracking-tight" style={{ color: isDark ? "#fff" : "#1c1b1b" }}>
-                  Alex <span className="marker marker-violet">Rivers</span>
+                  Alex <span className="relative inline z-[1]">Rivers<span className="absolute left-[-3px] right-[-3px] bottom-[1px] h-[45%] z-[-1] rounded-[2px]" style={{ backgroundColor: markerColor, transform: "rotate(-1.5deg)" }} /></span>
                 </p>
                 <p className="text-[9px] mb-2" style={{ color: isDark ? "#888" : "#7c7480" }}>Digital Curator & Designer</p>
 
