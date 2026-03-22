@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Check } from "lucide-react";
+import { saveTheme } from "./actions";
 
 const themes = [
   { id: "pastel-dream", name: "Pastel Dream", tag: "CURRENT THEME", bg: "#fcf9f8", accent: "#d2aef8", card: "#f0eaff", pro: false },
@@ -184,8 +185,8 @@ export default function ThemesPage() {
           Unsaved Changes — Previewing <span className="text-[#d2aef8] font-bold ml-1">{themes.find(t => t.id === activeTheme)?.name}</span>
         </div>
         <div className="flex gap-3">
-          <button className="px-6 py-2.5 rounded-full text-[#cdc3d0] font-bold text-sm hover:text-white transition-colors">Discard</button>
-          <button className="px-6 py-2.5 bg-[#d2aef8] text-[#1c1b1b] rounded-full font-black text-sm hover:opacity-90 transition-opacity shadow-lg">Save Changes</button>
+          <button onClick={() => setActiveTheme("pastel-dream")} className="px-6 py-2.5 rounded-full text-[#cdc3d0] font-bold text-sm hover:text-white transition-colors">Discard</button>
+          <button onClick={async () => { await saveTheme(activeTheme); }} className="px-6 py-2.5 bg-[#d2aef8] text-[#1c1b1b] rounded-full font-black text-sm hover:opacity-90 transition-opacity shadow-lg">Save Changes</button>
         </div>
       </div>
     </div>

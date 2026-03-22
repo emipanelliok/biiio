@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { addLink, deleteLink, toggleLink, updateLink } from "@/app/dashboard/actions";
+import { deleteLink, toggleLink, updateLink } from "@/app/dashboard/actions";
 import { Eye, EyeOff, Pencil, Trash2, GripVertical, Plus, X } from "lucide-react";
+import Link from "next/link";
 
 interface LinkItem {
   id: string;
@@ -16,18 +17,8 @@ interface LinkItem {
 }
 
 export default function LinkEditor({ links }: { links: LinkItem[] }) {
-  const [showAdd, setShowAdd] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-
-  async function handleAdd(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setLoading(true);
-    const formData = new FormData(e.currentTarget);
-    await addLink(formData);
-    setShowAdd(false);
-    setLoading(false);
-  }
 
   async function handleUpdate(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -50,54 +41,14 @@ export default function LinkEditor({ links }: { links: LinkItem[] }) {
 
   return (
     <div className="flex flex-col gap-3">
-      {/* Add new link button / form */}
-      {!showAdd ? (
-        <button
-          onClick={() => setShowAdd(true)}
-          className="w-full py-4 rounded-2xl bg-[#d2aef8] text-[#1c1b1b] font-black text-sm flex items-center justify-center gap-2 hover:opacity-90 transition-opacity shadow-lg shadow-[#d2aef8]/20"
-        >
-          <Plus className="w-4 h-4" />
-          Add New Link
-        </button>
-      ) : (
-        <form
-          onSubmit={handleAdd}
-          className="bg-white rounded-2xl p-5 flex flex-col gap-3"
-          style={{ boxShadow: "0 20px 40px rgba(26,28,28,0.06)" }}
-        >
-          <div className="flex items-center justify-between mb-1">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#7c7480]">New Link</span>
-            <button type="button" onClick={() => setShowAdd(false)} className="text-[#7c7480] hover:text-[#1c1b1b]">
-              <X className="w-4 h-4" />
-            </button>
-          </div>
-          <input
-            name="title"
-            required
-            placeholder="Link title"
-            className="bg-[#f3f3f3] rounded-xl px-4 py-3 text-sm font-medium text-[#1a1c1c] placeholder:text-[#cdc3d0] focus:outline-none focus:ring-2 focus:ring-[#d2aef8]"
-          />
-          <input
-            name="url"
-            required
-            type="url"
-            placeholder="https://..."
-            className="bg-[#f3f3f3] rounded-xl px-4 py-3 text-sm font-medium text-[#1a1c1c] placeholder:text-[#cdc3d0] focus:outline-none focus:ring-2 focus:ring-[#d2aef8]"
-          />
-          <input
-            name="emoji"
-            placeholder="Emoji (optional) e.g. 🎨"
-            className="bg-[#f3f3f3] rounded-xl px-4 py-3 text-sm font-medium text-[#1a1c1c] placeholder:text-[#cdc3d0] focus:outline-none focus:ring-2 focus:ring-[#d2aef8]"
-          />
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-3 rounded-full bg-[#d2aef8] text-[#1c1b1b] font-black text-sm hover:opacity-90 transition-opacity disabled:opacity-50"
-          >
-            {loading ? "Adding..." : "Add Link"}
-          </button>
-        </form>
-      )}
+      {/* Add new link button */}
+      <Link
+        href="/dashboard/add-link"
+        className="w-full py-4 rounded-2xl bg-[#d2aef8] text-[#1c1b1b] font-black text-sm flex items-center justify-center gap-2 hover:opacity-90 transition-opacity shadow-lg shadow-[#d2aef8]/20"
+      >
+        <Plus className="w-4 h-4" />
+        Add New Link
+      </Link>
 
       {/* Links list */}
       {links.map((link) => (
@@ -189,7 +140,7 @@ export default function LinkEditor({ links }: { links: LinkItem[] }) {
         </div>
       ))}
 
-      {links.length === 0 && !showAdd && (
+      {links.length === 0 && (
         <div className="text-center py-16">
           <p className="text-[#cdc3d0] text-sm">No links yet. Add your first one!</p>
         </div>
