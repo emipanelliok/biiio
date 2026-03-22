@@ -77,7 +77,7 @@ export default function SettingsForm({ profile }: Props) {
 
     const result = await saveAvatarUrl(bustUrl);
     if (result?.error) setError(result.error);
-    else { setAvatarPreview(publicUrl); setMessage("Avatar updated!"); }
+    else { setAvatarPreview(bustUrl); setMessage("Avatar updated!"); }
 
     setSaving(false);
   }
