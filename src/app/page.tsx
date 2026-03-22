@@ -125,7 +125,7 @@ export default function LandingPage() {
         <div className="relative flex justify-center items-center h-[480px] md:h-[560px] animate-in delay-2">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/mockups/celular4.png"
+            src="/mockups/celular-ok.png"
             alt="Biiio profile mockup"
             className="w-[400px] md:w-[480px] object-contain drop-shadow-2xl"
           />
