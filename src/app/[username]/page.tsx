@@ -8,7 +8,6 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
   const { username } = await params;
   const supabase = await createClient();
 
-  // Load profile by username
   const { data: profile } = await supabase
     .from("profiles")
     .select("*")
@@ -17,7 +16,6 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
 
   if (!profile) notFound();
 
-  // Load active links
   const { data: links } = await supabase
     .from("links")
     .select("*")
@@ -25,7 +23,6 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
     .eq("active", true)
     .order("sort_order", { ascending: true });
 
-  // Load socials
   const { data: socials } = await supabase
     .from("socials")
     .select("*")
@@ -33,30 +30,41 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
 
   const avatarUrl = profile.avatar_url || `https://api.dicebear.com/7.x/initials/svg?seed=${profile.username}`;
   const displayName = profile.display_name || profile.username;
+  const firstName = displayName.split(" ")[0];
+  const lastName = displayName.split(" ").slice(1).join(" ");
 
   return (
-    <main className="min-h-screen bg-white flex flex-col items-center px-4 py-16">
-      <div className="w-full max-w-[480px] flex flex-col gap-5">
+    <main className="min-h-screen bg-[#fafafa] flex flex-col items-center">
+      {/* Cover gradient */}
+      <div
+        className="w-full h-48 md:h-56"
+        style={{
+          background: "linear-gradient(135deg, #f09ba4, #f7d59e, #91cefb, #d2aef8)",
+        }}
+      />
 
-        {/* Avatar */}
-        <div className="flex flex-col items-center gap-5 text-center animate-in">
-          <div className="relative p-1 rounded-full shadow-xl"
-            style={{ background: "linear-gradient(135deg, #d2aef8, #91cefb)" }}>
-            <div className="bg-white p-1 rounded-full">
-              <Image
-                src={avatarUrl}
-                alt={displayName}
-                width={96}
-                height={96}
-                className="w-24 h-24 rounded-full object-cover"
-              />
-            </div>
+      <div className="w-full max-w-[480px] flex flex-col gap-5 px-4 -mt-16">
+        {/* Avatar + Info */}
+        <div className="flex flex-col items-start gap-4 animate-in">
+          <div className="p-1.5 rounded-2xl bg-white shadow-xl">
+            <Image
+              src={avatarUrl}
+              alt={displayName}
+              width={96}
+              height={96}
+              className="w-24 h-24 rounded-xl object-cover"
+            />
           </div>
 
           <div>
-            <h1 className="font-black text-4xl tracking-tighter text-[#1c1b1b] mb-3">
-              {displayName.split(" ")[0]}{" "}
-              <span className="marker marker-violet">{displayName.split(" ").slice(1).join(" ")}</span>
+            <h1 className="font-black text-4xl tracking-tighter text-[#1c1b1b] mb-2">
+              {firstName}
+              {lastName && (
+                <>
+                  {" "}
+                  <span className="marker marker-violet">{lastName}</span>
+                </>
+              )}
             </h1>
             {profile.bio && (
               <p className="text-[#4a4455] text-base leading-relaxed max-w-[340px]">
@@ -66,7 +74,10 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
           </div>
 
           {socials && socials.length > 0 && (
-            <SocialIcons socials={socials.map((s: { platform: string; url: string }) => ({ platform: s.platform as "instagram" | "tiktok" | "youtube" | "x" | "spotify" | "github" | "linkedin", url: s.url }))} />
+            <SocialIcons socials={socials.map((s: { platform: string; url: string }) => ({
+              platform: s.platform as "instagram" | "tiktok" | "youtube" | "x" | "spotify" | "github" | "linkedin",
+              url: s.url,
+            }))} />
           )}
         </div>
 
@@ -95,7 +106,7 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
         )}
 
         {/* Footer */}
-        <div className="flex items-center justify-center gap-1.5 pt-6">
+        <div className="flex items-center justify-center gap-1.5 py-8">
           <span className="text-[#ccc3d8] text-xs">Powered by</span>
           <a href="/" className="font-black text-xs text-[#d2aef8] uppercase tracking-tight hover:opacity-70 transition-opacity">
             Biiio

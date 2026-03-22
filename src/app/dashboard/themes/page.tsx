@@ -11,7 +11,7 @@ const themes = [
   { id: "matcha-latte", name: "Matcha Latte", tag: "ORGANIC TONES", bg: "#f5f5e8", accent: "#8fb87a", card: "#eaeed8", pro: true },
 ];
 
-const roundness = ["Sharp", "Rounded", "Pill"];
+const roundness = ["Round", "Rounded", "Square", "Hard Shadow"];
 const styles = ["Bold", "Outline", "Soft"];
 const colors = ["#d2aef8", "#1a1c1c", "#91cefb", "#f09ba4", "#f7d59e", "#f6f3f2"];
 
