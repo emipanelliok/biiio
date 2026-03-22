@@ -129,6 +129,8 @@ export default function LandingPage() {
             alt="Biiio profile mockup"
             className="w-[400px] md:w-[480px] object-contain drop-shadow-2xl"
           />
+          {/* Fade out bottom cut */}
+          <div className="absolute bottom-0 left-0 right-0 h-28 pointer-events-none" style={{ background: "linear-gradient(to bottom, transparent, #fcf9f8)" }} />
         </div>
       </section>
 
