@@ -16,25 +16,22 @@ export default function NotFound() {
         </div>
 
         {/* 404 */}
-        <div className="font-black text-[120px] md:text-[160px] leading-none tracking-tighter text-[#1c1b1b] select-none relative">
-          4
+        <div className="font-black text-[120px] md:text-[160px] leading-none tracking-tighter text-[#1c1b1b] select-none relative inline-block">
           <span className="relative inline-block z-[1]">
-            0
+            404
             <span
-              className="absolute left-[-6px] right-[-6px] bottom-[8px] h-[40%] z-[-1] rounded-[6px]"
-              style={{ backgroundColor: "#f7d59e", transform: "rotate(-1.5deg)" }}
+              className="absolute left-[-8px] right-[-8px] bottom-[10px] h-[38%] z-[-1] rounded-[8px]"
+              style={{ backgroundColor: "#f7d59e", transform: "rotate(-1deg)" }}
             />
           </span>
-          4
         </div>
 
-        <h1 className="font-black text-2xl md:text-3xl tracking-tighter text-[#1c1b1b] mt-4 mb-3">
-          Page not found
+        <h1 className="font-black text-2xl md:text-3xl tracking-tighter text-[#1c1b1b] mt-6 mb-3">
+          Uy, justo este link no lo tenemos
         </h1>
         <p className="text-[#7b7487] text-base leading-relaxed mb-10">
-          This link doesn&apos;t exist or may have been removed.
-          <br />
-          Double-check the URL and try again.
+          Puede que se haya movido, eliminado, o nunca existió.<br />
+          ¡Pero tu Biiio sí puede existir!
         </p>
 
         <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
