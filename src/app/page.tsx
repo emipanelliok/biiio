@@ -65,7 +65,6 @@ export default function LandingPage() {
         <div className="flex items-center gap-10">
           <BiiioLogo size="lg" />
           <div className="hidden md:flex gap-8">
-            <a href="#faq" className="text-[#1c1b1b] font-medium text-sm hover:opacity-60 transition-opacity">{t.nav.faq}</a>
           </div>
         </div>
         <div className="flex items-center gap-3">
