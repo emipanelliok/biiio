@@ -14,15 +14,12 @@ const sizes = {
 
 export default function BiiioLogo({ size = "md", color }: BiiioLogoProps) {
   return (
-    <span className={`font-black tracking-tighter uppercase ${sizes[size]} relative inline-block`} style={{ color: color || "#111" }}>
-      B
-      <span className="relative inline z-[1]">
-        IIIO
-        <span
-          className="absolute left-[-3px] right-[-3px] bottom-[2px] h-[45%] z-[-1] rounded-[3px] biiio-marker"
-          style={{ transform: "rotate(-1.5deg)" }}
-        />
-      </span>
+    <span className={`font-black tracking-tighter uppercase ${sizes[size]} relative inline-block z-[1]`} style={{ color: color || "#111" }}>
+      BIIIO
+      <span
+        className="absolute left-[-4px] right-[-4px] bottom-[2px] h-[45%] z-[-1] rounded-[3px] biiio-marker"
+        style={{ transform: "rotate(-1.5deg)" }}
+      />
     </span>
   );
 }
