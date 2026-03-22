@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { updateProfile, updateAvatar } from "./actions";
-import { Camera, Shield, Lock, Bell, Sparkles, KeyRound } from "lucide-react";
+import { updateProfile, updateAvatar, removeAvatar } from "./actions";
+import { Camera, Shield, Lock, Bell, Sparkles, KeyRound, X } from "lucide-react";
 
 interface Props {
   profile: {
@@ -59,7 +59,15 @@ export default function SettingsForm({ profile }: Props) {
     else if (result?.url) { setAvatarPreview(result.url); setMessage("Avatar updated!"); }
   }
 
+  const hasRealAvatar = avatarPreview && !avatarPreview.startsWith("https://api.dicebear.com");
   const avatarSrc = avatarPreview || `https://api.dicebear.com/7.x/initials/svg?seed=${username}`;
+
+  async function handleRemoveAvatar(e: React.MouseEvent) {
+    e.stopPropagation();
+    const result = await removeAvatar();
+    if (result?.error) setError(result.error);
+    else { setAvatarPreview(""); setMessage("Avatar removed!"); }
+  }
 
   const isDirty =
     displayName !== profile.displayName ||
@@ -99,6 +107,14 @@ export default function SettingsForm({ profile }: Props) {
               <button className="absolute bottom-0 right-0 bg-[#705092] text-white p-2 rounded-full shadow-lg border-4 border-white">
                 <Camera className="w-3.5 h-3.5" />
               </button>
+              {hasRealAvatar && (
+                <button
+                  onClick={handleRemoveAvatar}
+                  className="absolute top-0 right-0 bg-[#f09ba4] text-white w-6 h-6 rounded-full flex items-center justify-center shadow-lg border-2 border-white hover:bg-[#e07a87] transition-colors"
+                >
+                  <X className="w-3 h-3" />
+                </button>
+              )}
               <input ref={fileRef} type="file" accept="image/*" onChange={handleAvatarChange} className="hidden" />
             </div>
 
