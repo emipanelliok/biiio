@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useMemo } from "react";
 import { deleteLink, toggleLink, updateLink, reorderLinks } from "@/app/dashboard/actions";
 import { Eye, EyeOff, Pencil, Trash2, GripVertical, Plus, X } from "lucide-react";
 import Link from "next/link";
@@ -20,8 +20,51 @@ export default function LinkEditor({ links }: { links: LinkItem[] }) {
   const [items, setItems] = useState<LinkItem[]>(links);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const dragIndex = useRef<number | null>(null);
+
+  // Drag state — only for visual preview
+  const dragSrcIdx = useRef<number | null>(null);
+  const [dragOverIdx, setDragOverIdx] = useState<number | null>(null);
   const [draggingId, setDraggingId] = useState<string | null>(null);
+
+  // Compute display order: apply pending drag reorder visually
+  const displayItems = useMemo(() => {
+    const src = dragSrcIdx.current;
+    if (src === null || dragOverIdx === null || src === dragOverIdx) return items;
+    const next = [...items];
+    const [moved] = next.splice(src, 1);
+    next.splice(dragOverIdx, 0, moved);
+    return next;
+  }, [items, dragOverIdx]);
+
+  function onDragStart(e: React.DragEvent, index: number, id: string) {
+    dragSrcIdx.current = index;
+    setDraggingId(id);
+    e.dataTransfer.effectAllowed = "move";
+  }
+
+  function onDragEnter(index: number) {
+    setDragOverIdx(index);
+  }
+
+  function onDrop() {
+    const src = dragSrcIdx.current;
+    if (src !== null && dragOverIdx !== null && src !== dragOverIdx) {
+      const next = [...items];
+      const [moved] = next.splice(src, 1);
+      next.splice(dragOverIdx, 0, moved);
+      setItems(next);
+      reorderLinks(next.map((item, i) => ({ id: item.id, sort_order: i })));
+    }
+    dragSrcIdx.current = null;
+    setDragOverIdx(null);
+    setDraggingId(null);
+  }
+
+  function onDragEnd() {
+    dragSrcIdx.current = null;
+    setDragOverIdx(null);
+    setDraggingId(null);
+  }
 
   async function handleUpdate(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -44,28 +87,6 @@ export default function LinkEditor({ links }: { links: LinkItem[] }) {
     setItems(prev => prev.map(i => i.id === id ? { ...i, active: !current } : i));
   }
 
-  function onDragStart(index: number, id: string) {
-    dragIndex.current = index;
-    setDraggingId(id);
-  }
-
-  function onDragEnter(index: number) {
-    if (dragIndex.current === null || dragIndex.current === index) return;
-    setItems(prev => {
-      const next = [...prev];
-      const [moved] = next.splice(dragIndex.current!, 1);
-      next.splice(index, 0, moved);
-      dragIndex.current = index;
-      return next;
-    });
-  }
-
-  async function onDragEnd() {
-    setDraggingId(null);
-    dragIndex.current = null;
-    await reorderLinks(items.map((item, i) => ({ id: item.id, sort_order: i })));
-  }
-
   return (
     <div className="flex flex-col gap-3">
       {/* Add new link button */}
@@ -78,12 +99,17 @@ export default function LinkEditor({ links }: { links: LinkItem[] }) {
       </Link>
 
       {/* Links list */}
-      {items.map((link, index) => (
+      {displayItems.map((link, index) => (
         <div
           key={link.id}
           onDragEnter={() => onDragEnter(index)}
           onDragOver={e => e.preventDefault()}
-          style={{ opacity: draggingId === link.id ? 0.4 : 1, transition: "opacity 0.15s" }}
+          onDrop={onDrop}
+          style={{
+            opacity: draggingId === link.id ? 0.35 : 1,
+            transition: "opacity 0.15s, transform 0.15s",
+            transform: dragOverIdx === index && draggingId !== link.id ? "scale(1.01)" : "scale(1)",
+          }}
         >
           {editingId === link.id ? (
             <form
@@ -128,7 +154,7 @@ export default function LinkEditor({ links }: { links: LinkItem[] }) {
           ) : (
             <div
               draggable
-              onDragStart={() => onDragStart(index, link.id)}
+              onDragStart={e => onDragStart(e, index, link.id)}
               onDragEnd={onDragEnd}
               className="bg-white rounded-2xl px-4 py-3.5 flex items-center gap-3 group cursor-default"
               style={{
