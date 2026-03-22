@@ -2,7 +2,8 @@ import { createClient } from "@/lib/supabase/server";
 import LinkEditor from "@/components/dashboard/LinkEditor";
 import MobilePreview from "@/components/dashboard/MobilePreview";
 import SocialEditor from "@/components/dashboard/SocialEditor";
-import { ExternalLink, Share2 } from "lucide-react";
+import { ExternalLink } from "lucide-react";
+import ShareButton from "@/components/dashboard/ShareButton";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -67,14 +68,11 @@ export default async function DashboardPage() {
           <div>
             <p className="text-[#7b7487] text-xs mb-0.5">Your page</p>
             <p className="font-bold text-sm text-[#1c1b1b]">
-              biiio.io/<span className="text-[#d2aef8]">{profile.username}</span>
+              biiio.io/<span className="text-[#f7d59e]">{profile.username}</span>
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <button className="hidden sm:flex items-center gap-1.5 px-4 py-2 rounded-full text-[#4a4455] bg-white ghost-border text-xs font-bold hover:bg-[#f6f3f2] transition-colors">
-              <Share2 className="w-3.5 h-3.5" />
-              Share
-            </button>
+            <ShareButton username={profile.username} />
             <Link
               href={`/${profile.username}`}
               target="_blank"
