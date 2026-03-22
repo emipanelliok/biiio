@@ -12,8 +12,14 @@ export interface BiiioLink {
   active: boolean;
 }
 
+export type SocialPlatform =
+  | "instagram" | "x" | "tiktok" | "youtube" | "facebook" | "threads"
+  | "whatsapp" | "telegram" | "discord" | "linkedin" | "github"
+  | "spotify" | "pinterest" | "twitch" | "snapchat" | "patreon"
+  | "substack" | "email";
+
 export interface SocialLink {
-  platform: "instagram" | "tiktok" | "youtube" | "x" | "spotify" | "github" | "linkedin";
+  platform: SocialPlatform;
   url: string;
 }
 
