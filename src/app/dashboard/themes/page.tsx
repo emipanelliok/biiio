@@ -20,6 +20,17 @@ export default function ThemesPage() {
   const [activeRound, setActiveRound] = useState("Pill");
   const [activeStyle, setActiveStyle] = useState("Bold");
   const [activeColor, setActiveColor] = useState("#d2aef8");
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+
+  async function handleSave() {
+    setSaving(true);
+    setSaved(false);
+    await saveTheme(activeTheme);
+    setSaving(false);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 3000);
+  }
 
   return (
     <div className="min-h-screen bg-[#f9f9f9] flex flex-col">
@@ -186,7 +197,9 @@ export default function ThemesPage() {
         </div>
         <div className="flex gap-3">
           <button onClick={() => setActiveTheme("pastel-dream")} className="px-6 py-2.5 rounded-full text-[#cdc3d0] font-bold text-sm hover:text-white transition-colors">Discard</button>
-          <button onClick={async () => { await saveTheme(activeTheme); }} className="px-6 py-2.5 bg-[#d2aef8] text-[#1c1b1b] rounded-full font-black text-sm hover:opacity-90 transition-opacity shadow-lg">Save Changes</button>
+          <button onClick={handleSave} disabled={saving} className="px-6 py-2.5 bg-[#d2aef8] text-[#1c1b1b] rounded-full font-black text-sm hover:opacity-90 transition-opacity shadow-lg disabled:opacity-50">
+            {saving ? "Saving..." : saved ? "✓ Saved!" : "Save Changes"}
+          </button>
         </div>
       </div>
     </div>
