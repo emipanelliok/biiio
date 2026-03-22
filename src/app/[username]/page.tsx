@@ -162,11 +162,19 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
         )}
 
         {/* Footer */}
-        <div className="flex items-center justify-center gap-1.5 py-8">
-          <span className="text-[#ccc3d8] text-xs">Powered by</span>
-          <a href="/" className="font-black text-sm text-[#1c1b1b] relative inline-block z-[1] hover:opacity-70 transition-opacity">
-            Biiio
-            <span className="absolute left-[-3px] right-[-3px] bottom-[1px] h-[40%] z-[-1] rounded-[2px]" style={{ backgroundColor: "#f7d59e" }} />
+        <div className="flex flex-col items-center gap-2 py-8">
+          <div className="flex items-center justify-center gap-1.5">
+            <span className="text-[#ccc3d8] text-xs">Powered by</span>
+            <a href="/" className="font-black text-sm text-[#1c1b1b] relative inline-block z-[1] hover:opacity-70 transition-opacity">
+              Biiio
+              <span className="absolute left-[-3px] right-[-3px] bottom-[1px] h-[40%] z-[-1] rounded-[2px]" style={{ backgroundColor: "#f7d59e" }} />
+            </a>
+          </div>
+          <a
+            href="/signup"
+            className="text-xs text-[#7b7487] hover:text-[#1c1b1b] transition-colors"
+          >
+            Creá tu cuenta gratis →
           </a>
         </div>
       </div>
