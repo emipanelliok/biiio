@@ -1,11 +1,59 @@
-import { mockProfile } from "@/lib/mock-data";
+import { createClient } from "@/lib/supabase/server";
 import LinkEditor from "@/components/dashboard/LinkEditor";
 import MobilePreview from "@/components/dashboard/MobilePreview";
 import { ExternalLink, Share2 } from "lucide-react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
-export default function DashboardPage() {
-  const profile = mockProfile;
+export default async function DashboardPage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
+
+  // Load profile
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", user.id)
+    .single();
+
+  if (!profile) redirect("/onboarding");
+
+  // Load links
+  const { data: links } = await supabase
+    .from("links")
+    .select("*")
+    .eq("user_id", user.id)
+    .order("sort_order", { ascending: true });
+
+  // Load socials
+  const { data: socials } = await supabase
+    .from("socials")
+    .select("*")
+    .eq("user_id", user.id);
+
+  const profileData = {
+    username: profile.username,
+    displayName: profile.display_name || profile.username,
+    bio: profile.bio || "",
+    avatarUrl: profile.avatar_url || `https://api.dicebear.com/7.x/initials/svg?seed=${profile.username}`,
+    accentColor: "#d2aef8",
+    theme: profile.theme || "pastel-dream",
+    socials: (socials || []).map((s: { platform: string; url: string }) => ({
+      platform: s.platform,
+      url: s.url,
+    })),
+    links: (links || []).map((l: { id: string; type: string; title: string; url: string; description: string | null; emoji: string | null; active: boolean; clicks: number; sort_order: number }) => ({
+      id: l.id,
+      type: l.type || "link",
+      title: l.title,
+      url: l.url,
+      description: l.description || "",
+      emoji: l.emoji || undefined,
+      active: l.active,
+      clicks: l.clicks || 0,
+    })),
+  };
 
   return (
     <div className="flex h-full min-h-screen">
@@ -37,7 +85,6 @@ export default function DashboardPage() {
 
         {/* Content */}
         <div className="flex-1 px-6 py-6 overflow-y-auto">
-          {/* Heading */}
           <div className="mb-6">
             <h1 className="font-black text-3xl tracking-tighter text-[#1c1b1b]">
               My <span className="marker">Links</span>
@@ -45,14 +92,13 @@ export default function DashboardPage() {
             <p className="text-[#7b7487] text-sm mt-1">Curate your digital identity by adding and organizing your favorite destinations.</p>
           </div>
 
-          {/* Add new link */}
-          <LinkEditor links={profile.links} />
+          <LinkEditor links={profileData.links} />
         </div>
       </div>
 
       {/* Mobile preview panel */}
-      <div className="w-[300px] flex-shrink-0 flex flex-col items-center pt-16 pb-8 bg-[#f6f3f2]">
-        <MobilePreview profile={profile} />
+      <div className="w-[420px] flex-shrink-0 flex flex-col items-center pt-16 pb-8 bg-[#f6f3f2]">
+        <MobilePreview profile={profileData} />
         <p className="text-xs text-[#7b7487] font-bold uppercase tracking-widest mt-4">Live Preview</p>
         <p className="text-xs text-[#ccc3d8] mt-1">biiio.io/{profile.username}</p>
       </div>

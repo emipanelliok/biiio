@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Link2, BarChart2, Palette, Settings } from "lucide-react";
+import { Link2, BarChart2, Palette, Settings, LogOut } from "lucide-react";
+import { logout } from "@/app/login/actions";
 
 const navItems = [
   { label: "Links",     href: "/dashboard",           icon: Link2,    hoverColor: "#d2aef8" },
@@ -44,17 +45,14 @@ export default function Sidebar() {
         })}
       </nav>
 
-      {/* User + Upgrade */}
+      {/* Logout + Upgrade */}
       <div className="flex flex-col gap-3 px-2">
-        <div className="bg-white rounded-2xl p-3 flex items-center gap-3 ghost-border shadow-sm">
-          <div className="w-9 h-9 rounded-full bg-[#d2aef8] flex items-center justify-center font-black text-sm text-[#1c1b1b] flex-shrink-0">A</div>
-          <div className="flex-1 min-w-0">
-            <p className="font-bold text-sm text-[#1c1b1b] truncate">@username</p>
-            <p className="text-xs text-[#7b7487]">Pro Plan</p>
-          </div>
-        </div>
-        <button className="w-full py-3 bg-[#d2aef8] text-[#1c1b1b] font-bold text-sm rounded-full hover:opacity-90 transition-opacity shadow-sm">
-          Upgrade Now
+        <button
+          onClick={() => logout()}
+          className="flex items-center gap-3 px-4 py-3 rounded-full text-sm font-bold text-[#7b7487] hover:bg-[#f09ba4]/20 hover:text-[#c53030] transition-all"
+        >
+          <LogOut className="w-4 h-4 flex-shrink-0" />
+          Log out
         </button>
       </div>
     </aside>

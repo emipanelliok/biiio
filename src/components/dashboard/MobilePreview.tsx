@@ -7,13 +7,13 @@ const pastelColors = ["#d2aef8", "#91cefb", "#f7d59e", "#f09ba4", "#d2aef8"];
 
 export default function MobilePreview({ profile }: { profile: BiiioProfile }) {
   return (
-    <div className="w-[220px] flex-shrink-0">
+    <div className="w-[280px] flex-shrink-0">
       {/* Phone frame */}
-      <div className="relative mx-auto w-[210px]">
+      <div className="relative mx-auto w-[270px]">
         {/* Notch */}
-        <div className="absolute top-3 left-1/2 -translate-x-1/2 w-14 h-4 bg-[#1c1b1b] rounded-full z-20" />
+        <div className="absolute top-3 left-1/2 -translate-x-1/2 w-16 h-5 bg-[#1c1b1b] rounded-full z-20" />
 
-        <div className="w-full rounded-[2.5rem] border-[5px] border-[#1c1b1b] bg-white overflow-hidden shadow-2xl" style={{ height: 430 }}>
+        <div className="w-full rounded-[2.5rem] border-[5px] border-[#1c1b1b] bg-white overflow-hidden shadow-2xl" style={{ height: 560 }}>
           <div className="px-4 pt-10 pb-4 flex flex-col items-center gap-3 h-full overflow-y-auto">
             {/* Avatar */}
             <div className="p-0.5 rounded-full" style={{ background: "linear-gradient(135deg, #d2aef8, #91cefb)" }}>
