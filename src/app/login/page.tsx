@@ -23,23 +23,25 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex">
-      <div className="hidden lg:flex w-1/2 bg-[#1a1c1c] flex-col justify-between p-14 relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-80 h-80 bg-[#f7d59e]/20 rounded-full blur-[100px] pointer-events-none" />
-        <div className="absolute bottom-20 right-0 w-60 h-60 bg-[#91cefb]/10 rounded-full blur-[80px] pointer-events-none" />
+      <div className="hidden lg:flex w-1/2 flex-col justify-between p-14 relative overflow-hidden" style={{ background: "linear-gradient(135deg, #91cefb 0%, #d2aef8 50%, #f09ba4 100%)" }}>
         <div className="relative z-10">
-          <BiiioLogo size="lg" color="white" />
+          <BiiioLogo size="lg" />
         </div>
         <div className="relative z-10">
-          <h1 className="font-black text-5xl tracking-tighter text-white leading-tight mb-6">
-            Welcome<br />back to<br /><span className="text-[#f7d59e]">Biiio</span>
+          <h1 className="font-black text-5xl tracking-tighter text-[#1c1b1b] leading-tight mb-6">
+            Bienvenido<br />de vuelta a<br />
+            <span className="relative inline-block z-[1]">
+              Biiio
+              <span className="absolute left-[-4px] right-[-4px] bottom-[2px] h-[40%] z-[-1] rounded-[3px]" style={{ backgroundColor: "#f7d59e" }} />
+            </span>
           </h1>
-          <p className="text-[#7c7480] text-lg leading-relaxed max-w-sm">
-            Your curated digital landscape. Access your links, analytics, and personal brand with elegance and intentionality.
+          <p className="text-[#4a4455] text-lg leading-relaxed max-w-sm">
+            Tu identidad digital, tus links, tus analytics. Todo en un lugar.
           </p>
         </div>
-        <div className="relative z-10 bg-white/[0.06] rounded-2xl p-5 border border-white/[0.08]">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-[#f7d59e] mb-2">CURATION</p>
-          <p className="text-white/80 text-sm italic leading-relaxed">&ldquo;The details are not the details. They make the design.&rdquo;</p>
+        <div className="relative z-10 bg-white/40 backdrop-blur-sm rounded-2xl p-5 border border-white/50">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-[#4a4455] mb-1">CURATION</p>
+          <p className="text-[#1c1b1b] text-sm font-medium italic">&ldquo;Los detalles no son los detalles. Son el diseño.&rdquo;</p>
         </div>
       </div>
       <div className="flex-1 flex items-center justify-center px-8 bg-[#fcf9f8]">
