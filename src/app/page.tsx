@@ -85,7 +85,7 @@ export default function LandingPage() {
               </button>
             ))}
           </div>
-          <Link href="/login" className="hidden sm:block text-sm font-semibold text-[#1c1b1b] hover:opacity-60 transition-opacity">{t.nav.login}</Link>
+          <Link href="/login" className="text-sm font-semibold text-[#1c1b1b] hover:opacity-60 transition-opacity">{t.nav.login}</Link>
           <Link href="/signup" className="bg-[#1c1b1b] text-white px-5 py-2.5 rounded-full text-sm font-bold hover:opacity-80 transition-opacity">
             {t.nav.signup}
           </Link>
