@@ -7,7 +7,7 @@ import { logout } from "@/app/login/actions";
 import BiiioLogo from "@/components/BiiioLogo";
 
 const navItems = [
-  { label: "Links",      href: "/dashboard",           icon: Link2,    hoverColor: "#d2aef8" },
+  { label: "Links",      href: "/dashboard",           icon: Link2,    hoverColor: "#f7d59e" },
   { label: "Appearance", href: "/dashboard/themes",     icon: Palette,  hoverColor: "#f7d59e" },
   { label: "Analytics",  href: "/dashboard/analytics",  icon: BarChart2,hoverColor: "#91cefb" },
   { label: "Settings",   href: "/dashboard/settings",   icon: Settings, hoverColor: "#f09ba4" },
@@ -35,7 +35,7 @@ export default function Sidebar() {
                 href={href}
                 className="flex items-center gap-3 px-4 py-3 rounded-full text-sm font-bold transition-all duration-150"
                 style={active
-                  ? { backgroundColor: "#d2aef8", color: "#1c1b1b" }
+                  ? { backgroundColor: "#f7d59e", color: "#1c1b1b" }
                   : { color: "#1c1b1b" }
                 }
                 onMouseEnter={e => { if (!active) (e.currentTarget as HTMLElement).style.backgroundColor = hoverColor + "33"; }}
@@ -71,7 +71,7 @@ export default function Sidebar() {
                 href={href}
                 className="flex flex-col items-center gap-0.5 px-3.5 py-1.5 rounded-full transition-all"
                 style={active
-                  ? { backgroundColor: "#d2aef8" }
+                  ? { backgroundColor: "#f7d59e" }
                   : {}
                 }
               >

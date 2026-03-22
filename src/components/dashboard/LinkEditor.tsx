@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { deleteLink, toggleLink, updateLink } from "@/app/dashboard/actions";
+import { useState, useRef } from "react";
+import { deleteLink, toggleLink, updateLink, reorderLinks } from "@/app/dashboard/actions";
 import { Eye, EyeOff, Pencil, Trash2, GripVertical, Plus, X } from "lucide-react";
 import Link from "next/link";
 
@@ -17,8 +17,11 @@ interface LinkItem {
 }
 
 export default function LinkEditor({ links }: { links: LinkItem[] }) {
+  const [items, setItems] = useState<LinkItem[]>(links);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const dragIndex = useRef<number | null>(null);
+  const [draggingId, setDraggingId] = useState<string | null>(null);
 
   async function handleUpdate(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -32,11 +35,35 @@ export default function LinkEditor({ links }: { links: LinkItem[] }) {
   async function handleDelete(id: string) {
     setLoading(true);
     await deleteLink(id);
+    setItems(prev => prev.filter(i => i.id !== id));
     setLoading(false);
   }
 
   async function handleToggle(id: string, current: boolean) {
     await toggleLink(id, !current);
+    setItems(prev => prev.map(i => i.id === id ? { ...i, active: !current } : i));
+  }
+
+  function onDragStart(index: number, id: string) {
+    dragIndex.current = index;
+    setDraggingId(id);
+  }
+
+  function onDragEnter(index: number) {
+    if (dragIndex.current === null || dragIndex.current === index) return;
+    setItems(prev => {
+      const next = [...prev];
+      const [moved] = next.splice(dragIndex.current!, 1);
+      next.splice(index, 0, moved);
+      dragIndex.current = index;
+      return next;
+    });
+  }
+
+  async function onDragEnd() {
+    setDraggingId(null);
+    dragIndex.current = null;
+    await reorderLinks(items.map((item, i) => ({ id: item.id, sort_order: i })));
   }
 
   return (
@@ -44,15 +71,20 @@ export default function LinkEditor({ links }: { links: LinkItem[] }) {
       {/* Add new link button */}
       <Link
         href="/dashboard/add-link"
-        className="w-full py-4 rounded-2xl bg-[#d2aef8] text-[#1c1b1b] font-black text-sm flex items-center justify-center gap-2 hover:opacity-90 transition-opacity shadow-lg shadow-[#d2aef8]/20"
+        className="w-full py-4 rounded-2xl bg-[#f7d59e] text-[#1c1b1b] font-black text-sm flex items-center justify-center gap-2 hover:opacity-90 transition-opacity shadow-lg shadow-[#f7d59e]/20"
       >
         <Plus className="w-4 h-4" />
         Add New Link
       </Link>
 
       {/* Links list */}
-      {links.map((link) => (
-        <div key={link.id}>
+      {items.map((link, index) => (
+        <div
+          key={link.id}
+          onDragEnter={() => onDragEnter(index)}
+          onDragOver={e => e.preventDefault()}
+          style={{ opacity: draggingId === link.id ? 0.4 : 1, transition: "opacity 0.15s" }}
+        >
           {editingId === link.id ? (
             <form
               onSubmit={handleUpdate}
@@ -70,20 +102,20 @@ export default function LinkEditor({ links }: { links: LinkItem[] }) {
                 name="title"
                 defaultValue={link.title}
                 required
-                className="bg-[#f3f3f3] rounded-xl px-4 py-3 text-sm font-medium text-[#1a1c1c] focus:outline-none focus:ring-2 focus:ring-[#d2aef8]"
+                className="bg-[#f3f3f3] rounded-xl px-4 py-3 text-sm font-medium text-[#1a1c1c] focus:outline-none focus:ring-2 focus:ring-[#f7d59e]"
               />
               <input
                 name="url"
                 defaultValue={link.url}
                 required
                 type="url"
-                className="bg-[#f3f3f3] rounded-xl px-4 py-3 text-sm font-medium text-[#1a1c1c] focus:outline-none focus:ring-2 focus:ring-[#d2aef8]"
+                className="bg-[#f3f3f3] rounded-xl px-4 py-3 text-sm font-medium text-[#1a1c1c] focus:outline-none focus:ring-2 focus:ring-[#f7d59e]"
               />
               <input
                 name="emoji"
                 defaultValue={link.emoji || ""}
                 placeholder="Emoji (optional)"
-                className="bg-[#f3f3f3] rounded-xl px-4 py-3 text-sm font-medium text-[#1a1c1c] placeholder:text-[#cdc3d0] focus:outline-none focus:ring-2 focus:ring-[#d2aef8]"
+                className="bg-[#f3f3f3] rounded-xl px-4 py-3 text-sm font-medium text-[#1a1c1c] placeholder:text-[#cdc3d0] focus:outline-none focus:ring-2 focus:ring-[#f7d59e]"
               />
               <button
                 type="submit"
@@ -95,13 +127,16 @@ export default function LinkEditor({ links }: { links: LinkItem[] }) {
             </form>
           ) : (
             <div
-              className="bg-white rounded-2xl px-4 py-3.5 flex items-center gap-3 group"
+              draggable
+              onDragStart={() => onDragStart(index, link.id)}
+              onDragEnd={onDragEnd}
+              className="bg-white rounded-2xl px-4 py-3.5 flex items-center gap-3 group cursor-default"
               style={{
                 boxShadow: "0 20px 40px rgba(26,28,28,0.04)",
                 opacity: link.active ? 1 : 0.5,
               }}
             >
-              <GripVertical className="w-4 h-4 text-[#cdc3d0] cursor-grab flex-shrink-0" />
+              <GripVertical className="w-4 h-4 text-[#cdc3d0] cursor-grab flex-shrink-0 active:cursor-grabbing" />
 
               <div className="w-9 h-9 rounded-xl bg-[#f3f3f3] flex items-center justify-center text-base flex-shrink-0">
                 {link.emoji || "🔗"}
@@ -140,7 +175,7 @@ export default function LinkEditor({ links }: { links: LinkItem[] }) {
         </div>
       ))}
 
-      {links.length === 0 && (
+      {items.length === 0 && (
         <div className="text-center py-16">
           <p className="text-[#cdc3d0] text-sm">No links yet. Add your first one!</p>
         </div>

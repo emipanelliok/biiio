@@ -44,7 +44,7 @@ export default function OnboardingPage() {
     <div className="min-h-screen bg-[#fcf9f8] flex flex-col">
       {/* Progress bar */}
       <div className="h-1 bg-[#e2e2e2]">
-        <div className="h-full bg-[#d2aef8] w-2/3 transition-all" />
+        <div className="h-full bg-[#f7d59e] w-2/3 transition-all" />
       </div>
 
       {/* Header */}
@@ -71,7 +71,7 @@ export default function OnboardingPage() {
             <label className="text-xs font-bold uppercase tracking-widest text-[#7c7480] block mb-2">
               Choose your username
             </label>
-            <div className="flex items-center bg-[#f3f3f3] rounded-2xl px-4 py-3.5 focus-within:ring-2 focus-within:ring-[#d2aef8]">
+            <div className="flex items-center bg-[#f3f3f3] rounded-2xl px-4 py-3.5 focus-within:ring-2 focus-within:ring-[#f7d59e]">
               <span className="text-[#cdc3d0] font-bold text-sm mr-1">biiio.io/</span>
               <input
                 value={username}
@@ -92,7 +92,7 @@ export default function OnboardingPage() {
                   onClick={() => setSelected(label)}
                   className="flex flex-col items-center gap-2 p-4 rounded-2xl font-bold text-sm transition-all"
                   style={{
-                    backgroundColor: selected === label ? "#d2aef8" : "#f3f3f3",
+                    backgroundColor: selected === label ? "#f7d59e" : "#f3f3f3",
                     color: "#1a1c1c",
                     transform: selected === label ? "scale(1.05)" : "scale(1)",
                   }}
@@ -107,7 +107,7 @@ export default function OnboardingPage() {
           <button
             onClick={handleSubmit}
             disabled={loading}
-            className="inline-flex items-center gap-2 px-10 py-4 bg-[#d2aef8] text-[#1c1b1b] rounded-full font-black text-sm hover:opacity-90 transition-opacity shadow-lg shadow-[#d2aef8]/30 disabled:opacity-50"
+            className="inline-flex items-center gap-2 px-10 py-4 bg-[#f7d59e] text-[#1c1b1b] rounded-full font-black text-sm hover:opacity-90 transition-opacity shadow-lg shadow-[#f7d59e]/30 disabled:opacity-50"
           >
             {loading ? "Setting up..." : "Get Started →"}
           </button>

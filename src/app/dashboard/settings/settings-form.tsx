@@ -79,7 +79,7 @@ export default function SettingsForm({ profile }: Props) {
       </div>
 
       {message && (
-        <div className="bg-[#d2aef8]/20 text-[#5b3fa0] text-sm font-medium px-4 py-3 rounded-2xl mb-6">{message}</div>
+        <div className="bg-[#f7d59e]/20 text-[#5b3fa0] text-sm font-medium px-4 py-3 rounded-2xl mb-6">{message}</div>
       )}
       {error && (
         <div className="bg-[#f09ba4]/20 text-[#9a2c2c] text-sm font-medium px-4 py-3 rounded-2xl mb-6">{error}</div>
@@ -93,7 +93,7 @@ export default function SettingsForm({ profile }: Props) {
           <div className="flex flex-col md:flex-row gap-10 items-start">
             {/* Avatar */}
             <div className="relative group cursor-pointer flex-shrink-0" onClick={() => fileRef.current?.click()}>
-              <div className="w-32 h-32 rounded-3xl p-1 border-4 border-[#d2aef8] overflow-hidden">
+              <div className="w-32 h-32 rounded-3xl p-1 border-4 border-[#f7d59e] overflow-hidden">
                 <img src={avatarSrc} alt="Avatar" className="w-full h-full rounded-2xl object-cover" />
               </div>
               <button className="absolute bottom-0 right-0 bg-[#705092] text-white p-2 rounded-full shadow-lg border-4 border-white">
@@ -110,7 +110,7 @@ export default function SettingsForm({ profile }: Props) {
                   <input
                     value={displayName}
                     onChange={e => setDisplayName(e.target.value)}
-                    className="w-full bg-[#f3f3f3] border-none rounded-xl px-4 py-3 text-sm font-semibold text-[#1a1c1c] focus:outline-none focus:ring-2 focus:ring-[#d2aef8]"
+                    className="w-full bg-[#f3f3f3] border-none rounded-xl px-4 py-3 text-sm font-semibold text-[#1a1c1c] focus:outline-none focus:ring-2 focus:ring-[#f7d59e]"
                   />
                 </div>
                 <div className="flex flex-col gap-2">
@@ -129,7 +129,7 @@ export default function SettingsForm({ profile }: Props) {
                   onChange={e => setBio(e.target.value)}
                   rows={3}
                   placeholder="Tell your audience about yourself..."
-                  className="w-full bg-[#f3f3f3] border-none rounded-xl px-4 py-3 text-sm font-medium text-[#1a1c1c] placeholder:text-[#cdc3d0] focus:outline-none focus:ring-2 focus:ring-[#d2aef8] resize-vertical"
+                  className="w-full bg-[#f3f3f3] border-none rounded-xl px-4 py-3 text-sm font-medium text-[#1a1c1c] placeholder:text-[#cdc3d0] focus:outline-none focus:ring-2 focus:ring-[#f7d59e] resize-vertical"
                 />
               </div>
             </div>
@@ -178,7 +178,7 @@ export default function SettingsForm({ profile }: Props) {
               <div
                 onClick={() => setTwoFA(!twoFA)}
                 className="w-12 h-6 rounded-full relative cursor-pointer transition-colors"
-                style={{ backgroundColor: twoFA ? "#d2aef8" : "#e2e2e2" }}
+                style={{ backgroundColor: twoFA ? "#f7d59e" : "#e2e2e2" }}
               >
                 <div
                   className="absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-all"
@@ -197,7 +197,7 @@ export default function SettingsForm({ profile }: Props) {
                   <p className="text-xs text-[#7b7487]">Last changed 3 months ago</p>
                 </div>
               </div>
-              <button className="text-[#705092] text-sm font-bold px-4 py-2 hover:bg-[#d2aef8]/20 rounded-lg transition-colors">
+              <button className="text-[#705092] text-sm font-bold px-4 py-2 hover:bg-[#f7d59e]/20 rounded-lg transition-colors">
                 Change
               </button>
             </div>
@@ -223,14 +223,14 @@ export default function SettingsForm({ profile }: Props) {
                     type="checkbox"
                     checked={state}
                     onChange={() => set(!state)}
-                    className="w-5 h-5 rounded border-[#cdc3d0] text-[#705092] focus:ring-[#d2aef8]"
+                    className="w-5 h-5 rounded border-[#cdc3d0] text-[#705092] focus:ring-[#f7d59e]"
                   />
                 </label>
                 {i < 2 && <div className="h-px bg-[#e2e2e2] mt-2" />}
               </div>
             ))}
           </div>
-          <div className="mt-8 bg-[#d2aef8]/10 p-4 rounded-2xl flex items-center gap-4">
+          <div className="mt-8 bg-[#f7d59e]/10 p-4 rounded-2xl flex items-center gap-4">
             <span className="text-[#705092] text-lg">ℹ️</span>
             <p className="text-[10px] font-medium text-[#5c3e7e] leading-relaxed">
               You&apos;re currently receiving <span className="font-bold">{[notif1, notif2, notif3].filter(Boolean).length}/3</span> alert types. Notification settings affect only your primary device.
@@ -256,7 +256,7 @@ export default function SettingsForm({ profile }: Props) {
             <button
               onClick={handleSave}
               disabled={saving}
-              className="bg-[#d2aef8] text-[#1c1b1b] px-6 md:px-8 py-2 rounded-full font-black text-sm hover:scale-105 transition-transform shadow-lg shadow-[#d2aef8]/20 disabled:opacity-50"
+              className="bg-[#f7d59e] text-[#1c1b1b] px-6 md:px-8 py-2 rounded-full font-black text-sm hover:scale-105 transition-transform shadow-lg shadow-[#f7d59e]/20 disabled:opacity-50"
             >
               {saving ? "Saving..." : "Save Changes"}
             </button>

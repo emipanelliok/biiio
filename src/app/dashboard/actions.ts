@@ -130,6 +130,21 @@ export async function deleteLink(id: string) {
   return { success: true };
 }
 
+export async function reorderLinks(order: { id: string; sort_order: number }[]) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: "Not authenticated" };
+
+  await Promise.all(
+    order.map(({ id, sort_order }) =>
+      supabase.from("links").update({ sort_order }).eq("id", id).eq("user_id", user.id)
+    )
+  );
+
+  revalidatePath("/dashboard");
+  return { success: true };
+}
+
 export async function toggleLink(id: string, active: boolean) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();

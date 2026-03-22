@@ -118,14 +118,6 @@ export default function ThemesForm({ initial }: Props) {
       {/* Top bar */}
       <header className="sticky top-0 z-30 bg-[#f9f9f9]/80 backdrop-blur-xl flex items-center justify-between px-4 md:px-10 py-3 md:py-4 border-b border-black/[0.04]">
         <h2 className="font-black text-base md:text-lg tracking-tighter text-[#1a1c1c]">Appearance</h2>
-        <nav className="flex gap-4 md:gap-6 text-xs md:text-sm font-bold">
-          <button className="text-[#d2aef8] border-b-2 border-[#f7d59e] pb-0.5">Themes</button>
-          <button className="text-[#7c7480] hover:text-[#1a1c1c] transition-colors">Buttons</button>
-          <button className="text-[#7c7480] hover:text-[#1a1c1c] transition-colors">Fonts</button>
-        </nav>
-        <div className="hidden md:flex gap-2">
-          <div className="w-8 h-8 rounded-full bg-[#d2aef8] flex items-center justify-center font-black text-sm text-[#1c1b1b]">A</div>
-        </div>
       </header>
 
       <div className="flex flex-1">
@@ -161,7 +153,7 @@ export default function ThemesForm({ initial }: Props) {
         {/* ── Header Pattern ── */}
           <div className="bg-white rounded-3xl p-5 md:p-8 shadow-[0_20px_40px_rgba(26,28,28,0.04)] mb-6 md:mb-8">
             <h3 className="font-black text-lg md:text-xl tracking-tighter text-[#1a1c1c] mb-1">
-              Header <span className="marker marker-violet">Cover</span>
+              Header <span className="marker">Cover</span>
             </h3>
             <p className="text-[#7b7487] text-sm mb-5">El degradé o color que se ve en la parte superior de tu perfil.</p>
             <div className="grid grid-cols-5 gap-3">
@@ -293,8 +285,8 @@ export default function ThemesForm({ initial }: Props) {
                     value={hexInput}
                     onChange={e => handleHexInput(e.target.value)}
                     maxLength={7}
-                    className="w-20 px-2 py-1 text-xs font-mono bg-[#f3f3f3] rounded-lg border border-transparent focus:border-[#d2aef8] outline-none text-[#1a1c1c]"
-                    placeholder="#d2aef8"
+                    className="w-20 px-2 py-1 text-xs font-mono bg-[#f3f3f3] rounded-lg border border-transparent focus:border-[#f7d59e] outline-none text-[#1a1c1c]"
+                    placeholder="#f7d59e"
                   />
                 </div>
               </div>
@@ -356,10 +348,10 @@ export default function ThemesForm({ initial }: Props) {
       </div>
 
       {/* Save bar */}
-      <div className="sticky bottom-0 bg-[#1a1c1c] px-4 md:px-10 py-3 md:py-4 flex items-center justify-between z-40 mb-24 md:mb-0">
-        <div className="hidden sm:flex items-center gap-2 text-white text-sm">
+      <div className="sticky bottom-0 bg-white border-t border-black/[0.06] px-4 md:px-10 py-3 md:py-4 flex items-center justify-between z-40 mb-24 md:mb-0">
+        <div className="hidden sm:flex items-center gap-2 text-[#7c7480] text-sm">
           <span className="text-[#f7d59e]">✦</span>
-          Unsaved Changes — <span className="text-[#d2aef8] font-bold ml-1">{currentTheme.name}</span>
+          Unsaved Changes — <span className="text-[#1a1c1c] font-bold ml-1">{currentTheme.name}</span>
         </div>
         <div className="flex gap-2 md:gap-3 w-full sm:w-auto">
           <button onClick={() => {
@@ -372,9 +364,9 @@ export default function ThemesForm({ initial }: Props) {
             setMarkerColor(initial.markerColor);
             setHeaderStyle(initial.headerStyle);
           }}
-            className="flex-1 sm:flex-none px-4 md:px-6 py-2.5 rounded-full text-[#cdc3d0] font-bold text-sm hover:text-white transition-colors">Discard</button>
+            className="flex-1 sm:flex-none px-4 md:px-6 py-2.5 rounded-full text-[#7c7480] font-bold text-sm hover:text-[#1a1c1c] transition-colors">Discard</button>
           <button onClick={handleSave} disabled={saving}
-            className="flex-1 sm:flex-none px-4 md:px-6 py-2.5 bg-[#d2aef8] text-[#1c1b1b] rounded-full font-black text-sm hover:opacity-90 transition-opacity shadow-lg disabled:opacity-50">
+            className="flex-1 sm:flex-none px-4 md:px-6 py-2.5 bg-[#f7d59e] text-[#1c1b1b] rounded-full font-black text-sm hover:opacity-90 transition-opacity shadow-lg disabled:opacity-50">
             {saving ? "Saving..." : saved ? "Saved!" : "Save Changes"}
           </button>
         </div>

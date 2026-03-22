@@ -79,7 +79,7 @@ export default function AddLinkPage() {
               placeholder="My New Portfolio"
               className="w-full bg-[#f3f3f3] border-none p-4 rounded-xl text-lg font-semibold text-[#1c1b1b] placeholder:text-[#cdc3d0] focus:outline-none focus:bg-white focus:ring-0 transition-all"
               style={{ borderBottom: "2px solid transparent" }}
-              onFocus={e => (e.target.style.borderBottomColor = "#d2aef8")}
+              onFocus={e => (e.target.style.borderBottomColor = "#f7d59e")}
               onBlur={e => (e.target.style.borderBottomColor = "transparent")}
             />
           </div>
@@ -94,7 +94,7 @@ export default function AddLinkPage() {
               type="url"
               className="w-full bg-[#f3f3f3] border-none p-4 rounded-xl text-lg font-semibold text-[#1c1b1b] placeholder:text-[#cdc3d0] focus:outline-none focus:bg-white focus:ring-0 transition-all"
               style={{ borderBottom: "2px solid transparent" }}
-              onFocus={e => (e.target.style.borderBottomColor = "#d2aef8")}
+              onFocus={e => (e.target.style.borderBottomColor = "#f7d59e")}
               onBlur={e => (e.target.style.borderBottomColor = "transparent")}
             />
           </div>
@@ -109,8 +109,8 @@ export default function AddLinkPage() {
                   onClick={() => setSelectedType(value)}
                   className="aspect-square rounded-2xl flex flex-col items-center justify-center gap-2 transition-all"
                   style={{
-                    backgroundColor: selectedType === value ? "#d2aef8" + "1a" : "#f3f3f3",
-                    border: selectedType === value ? "2px solid #d2aef8" : "2px solid transparent",
+                    backgroundColor: selectedType === value ? "#f7d59e" + "1a" : "#f3f3f3",
+                    border: selectedType === value ? "2px solid #f7d59e" : "2px solid transparent",
                   }}
                 >
                   <Icon className="w-5 h-5" style={{ color: selectedType === value ? "#705092" : "#7b7487" }} />
@@ -129,7 +129,7 @@ export default function AddLinkPage() {
               <p className="text-sm font-bold text-[#1c1b1b]">Thumbnail / Icon</p>
               <p className="text-xs text-[#7b7487] mt-1">Upload a custom image or pick from library</p>
             </div>
-            <button className="px-4 py-2 bg-white text-[#705092] font-bold text-xs rounded-full ghost-border hover:bg-[#d2aef8]/10 transition-colors">
+            <button className="px-4 py-2 bg-white text-[#705092] font-bold text-xs rounded-full ghost-border hover:bg-[#f7d59e]/10 transition-colors">
               Choose
             </button>
           </div>
@@ -140,7 +140,7 @@ export default function AddLinkPage() {
               <div
                 onClick={() => setActive(!active)}
                 className="w-11 h-6 rounded-full relative transition-colors cursor-pointer"
-                style={{ backgroundColor: active ? "#d2aef8" : "#e2e2e2" }}
+                style={{ backgroundColor: active ? "#f7d59e" : "#e2e2e2" }}
               >
                 <div
                   className="absolute top-[2px] w-5 h-5 bg-white rounded-full shadow transition-transform"
@@ -155,8 +155,8 @@ export default function AddLinkPage() {
           <button
             onClick={handleSubmit}
             disabled={loading}
-            className="w-full py-5 rounded-full font-black text-lg text-[#1c1b1b] shadow-lg shadow-[#d2aef8]/20 hover:scale-[0.98] transition-all active:scale-95 mt-4 disabled:opacity-50"
-            style={{ background: "linear-gradient(to right, #d2aef8, #c094f0)" }}
+            className="w-full py-5 rounded-full font-black text-lg text-[#1c1b1b] shadow-lg shadow-[#f7d59e]/20 hover:scale-[0.98] transition-all active:scale-95 mt-4 disabled:opacity-50"
+            style={{ background: "linear-gradient(to right, #f7d59e, #f0c060)" }}
           >
             {loading ? "Adding..." : "Add to Profile"}
           </button>
@@ -196,7 +196,7 @@ export default function AddLinkPage() {
               </div>
             </div>
             <div className="absolute bottom-6 left-0 right-0 flex justify-center">
-              <span className="text-[10px] font-black italic text-[#d2aef8] tracking-tight">Biiio</span>
+              <span className="text-[10px] font-black italic text-[#f7d59e] tracking-tight">Biiio</span>
             </div>
           </div>
         </div>
