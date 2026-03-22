@@ -26,7 +26,7 @@ export default function MobilePreview({ profile }: { profile: BiiioProfile }) {
           />
 
           {/* Content overlapping cover */}
-          <div className="px-5 pb-4 flex flex-col items-start -mt-10 h-[calc(100%-7rem)] overflow-y-auto">
+          <div className="px-5 pb-4 flex flex-col items-start -mt-10 h-[calc(100%-7rem)] overflow-y-auto relative z-10">
             {/* Avatar */}
             <div className="p-1 rounded-2xl bg-white shadow-lg mb-3">
               <Image
