@@ -121,31 +121,13 @@ export default function LandingPage() {
           <p className="mt-3 px-5 text-xs text-[#7b7487] italic">{t.hero.note}</p>
         </div>
 
-        {/* Phone mockup — hand hero with stacked backs */}
+        {/* Phone mockup — hand hero */}
         <div className="relative flex justify-center items-center h-[480px] md:h-[560px] animate-in delay-2">
-          {/* Back left: celular2 (Jessica) */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/mockups/celular2.png"
-            alt=""
-            className="absolute w-[300px] md:w-[360px] object-contain"
-            style={{ transform: "rotate(-10deg) translateX(-140px) translateY(10px)", opacity: 0.5, zIndex: 1 }}
-          />
-          {/* Back right: celular1 (Alex) */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/mockups/celular1.png"
-            alt=""
-            className="absolute w-[300px] md:w-[360px] object-contain"
-            style={{ transform: "rotate(8deg) translateX(140px) translateY(10px)", opacity: 0.5, zIndex: 1 }}
-          />
-          {/* Front: celular-ok (hand) */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/mockups/celular-ok.png"
             alt="Biiio profile mockup"
-            className="relative w-[400px] md:w-[480px] object-contain drop-shadow-2xl"
-            style={{ zIndex: 2 }}
+            className="w-[400px] md:w-[480px] object-contain drop-shadow-2xl"
           />
         </div>
       </section>
