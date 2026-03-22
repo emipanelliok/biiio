@@ -121,31 +121,31 @@ export default function LandingPage() {
           <p className="mt-3 px-5 text-xs text-[#7b7487] italic">{t.hero.note}</p>
         </div>
 
-        {/* Phone mockup — stacked collage */}
-        <div className="relative flex justify-center items-center h-[500px] md:h-[600px] animate-in delay-2">
-          {/* Back: celular2 (Jessica, pink) — rotated left */}
+        {/* Phone mockup — hand hero */}
+        <div className="relative flex justify-center items-center h-[480px] md:h-[560px] animate-in delay-2">
+          {/* Small floating card — celular2 top left */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/mockups/celular2.png"
             alt="Biiio profile mockup"
-            className="absolute w-[280px] md:w-[340px] object-contain drop-shadow-2xl"
-            style={{ transform: "rotate(-12deg) translate(-120px, 30px)", zIndex: 1 }}
+            className="absolute w-[140px] md:w-[160px] object-contain drop-shadow-xl"
+            style={{ transform: "rotate(-8deg)", top: "10px", left: "0px", zIndex: 1, opacity: 0.9 }}
           />
-          {/* Middle: celular1 (Alex, blue) — slight tilt */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/mockups/celular1.png"
-            alt="Biiio profile mockup"
-            className="absolute w-[290px] md:w-[350px] object-contain drop-shadow-2xl"
-            style={{ transform: "rotate(-3deg) translate(10px, -15px)", zIndex: 2 }}
-          />
-          {/* Front: celular4 (hand) — rotated right, focal point */}
+          {/* Main: celular4 (hand) — large and centered */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/mockups/celular4.png"
             alt="Biiio profile mockup"
-            className="absolute w-[310px] md:w-[370px] object-contain drop-shadow-2xl"
-            style={{ transform: "rotate(9deg) translate(130px, 40px)", zIndex: 3 }}
+            className="relative w-[380px] md:w-[460px] object-contain drop-shadow-2xl"
+            style={{ zIndex: 3 }}
+          />
+          {/* Small floating card — celular1 bottom right */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/mockups/celular1.png"
+            alt="Biiio profile mockup"
+            className="absolute w-[140px] md:w-[160px] object-contain drop-shadow-xl"
+            style={{ transform: "rotate(6deg)", bottom: "10px", right: "0px", zIndex: 2, opacity: 0.9 }}
           />
         </div>
       </section>
