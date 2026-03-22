@@ -5,6 +5,15 @@ import Image from "next/image";
 
 const pastelColors = ["#d2aef8", "#91cefb", "#f7d59e", "#f09ba4", "#d2aef8"];
 
+const PLATFORM_COLORS: Record<string, string> = {
+  instagram: "#E1306C", tiktok: "#010101", youtube: "#FF0000",
+  x: "#000000", spotify: "#1DB954", github: "#181717",
+  linkedin: "#0A66C2", facebook: "#1877F2", threads: "#000000",
+  whatsapp: "#25D366", telegram: "#2AABEE", discord: "#5865F2",
+  pinterest: "#E60023", twitch: "#9146FF", snapchat: "#FFFC00",
+  patreon: "#FF424D", substack: "#FF6719", kick: "#53FC18", email: "#7b7487",
+};
+
 export default function MobilePreview({ profile }: { profile: BiiioProfile }) {
   const firstName = profile.displayName.split(" ")[0];
   const lastName = profile.displayName.split(" ").slice(1).join(" ");
@@ -48,10 +57,28 @@ export default function MobilePreview({ profile }: { profile: BiiioProfile }) {
             </div>
 
             {/* Bio */}
-            <p className="text-[#7b7487] text-[10px] leading-snug mb-4">
+            <p className="text-[#7b7487] text-[10px] leading-snug mb-3">
               {profile.bio ? profile.bio.slice(0, 60) : "Digital Creator & Curator"}
               {profile.bio && profile.bio.length > 60 ? "..." : ""}
             </p>
+
+            {/* Socials */}
+            {profile.socials && profile.socials.length > 0 && (
+              <div className="flex gap-1.5 mb-3 flex-wrap">
+                {profile.socials.slice(0, 8).map((s) => (
+                  <div
+                    key={s.platform}
+                    className="w-6 h-6 rounded-lg flex items-center justify-center"
+                    style={{ backgroundColor: PLATFORM_COLORS[s.platform] || "#cdc3d0" }}
+                    title={s.platform}
+                  >
+                    <span className="text-white text-[8px] font-black uppercase">
+                      {s.platform[0]}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
 
             {/* Links */}
             <div className="flex flex-col gap-2 w-full">
