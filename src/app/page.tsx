@@ -1,4 +1,5 @@
 import Link from "next/link";
+import BiiioLogo from "@/components/BiiioLogo";
 
 const marqueeItems = [
   "NO CODING REQUIRED", "FULLY CUSTOMIZABLE", "SET UP IN MINUTES",
@@ -14,7 +15,7 @@ export default function LandingPage() {
       {/* Nav */}
       <nav className="flex items-center justify-between px-8 py-5 max-w-7xl mx-auto w-full">
         <div className="flex items-center gap-12">
-          <span className="font-black tracking-tighter text-3xl text-[#111] uppercase">Biiio</span>
+          <BiiioLogo size="lg" />
           <div className="hidden md:flex gap-8">
             <a href="#" className="font-bold text-[#d2aef8] border-b-2 border-[#f7d59e] text-sm">Customers</a>
             <a href="#" className="text-[#1c1b1b] font-medium text-sm hover:text-[#d2aef8] transition-colors">Templates</a>
@@ -194,7 +195,7 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="py-8 px-8 flex items-center justify-between max-w-7xl mx-auto w-full text-xs text-[#7b7487]">
-        <span className="font-black tracking-tighter text-base text-[#111] uppercase">Biiio</span>
+        <BiiioLogo size="sm" />
         <div className="flex gap-6">
           <a href="#" className="hover:text-[#1c1b1b] transition-colors">Privacy</a>
           <a href="#" className="hover:text-[#1c1b1b] transition-colors">Terms</a>

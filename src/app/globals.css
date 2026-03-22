@@ -92,6 +92,18 @@
   animation: marquee 22s linear infinite;
 }
 
+/* ── Biiio Logo Marker Animation ── */
+@keyframes marker-cycle {
+  0%, 20%    { background-color: #d2aef8; } /* violet */
+  25%, 45%   { background-color: #f7d59e; } /* yellow */
+  50%, 70%   { background-color: #91cefb; } /* cyan */
+  75%, 95%   { background-color: #f09ba4; } /* pink */
+  100%       { background-color: #d2aef8; } /* back to violet */
+}
+.biiio-marker {
+  animation: marker-cycle 120s ease-in-out infinite;
+}
+
 /* ── Scrollbar ── */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }

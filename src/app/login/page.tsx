@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { login } from "./actions";
+import BiiioLogo from "@/components/BiiioLogo";
 import { useState } from "react";
 
 export default function LoginPage() {
@@ -26,7 +27,7 @@ export default function LoginPage() {
         <div className="absolute top-0 left-0 w-80 h-80 bg-[#d2aef8]/20 rounded-full blur-[100px] pointer-events-none" />
         <div className="absolute bottom-20 right-0 w-60 h-60 bg-[#91cefb]/10 rounded-full blur-[80px] pointer-events-none" />
         <div className="relative z-10">
-          <span className="font-black text-2xl tracking-tighter text-white uppercase">Biiio</span>
+          <BiiioLogo size="lg" color="white" />
         </div>
         <div className="relative z-10">
           <h1 className="font-black text-5xl tracking-tighter text-white leading-tight mb-6">
@@ -44,7 +45,7 @@ export default function LoginPage() {
       <div className="flex-1 flex items-center justify-center px-8 bg-[#fcf9f8]">
         <div className="w-full max-w-md">
           <div className="lg:hidden mb-10">
-            <span className="font-black text-2xl tracking-tighter text-[#1a1c1c] uppercase">Biiio</span>
+            <BiiioLogo size="lg" />
           </div>
           <h2 className="font-black text-3xl tracking-tighter text-[#1a1c1b] mb-2">Sign in</h2>
           <p className="text-[#7c7480] text-sm mb-8">Enter your credentials to continue to your dashboard.</p>

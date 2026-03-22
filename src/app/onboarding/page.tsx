@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { completeOnboarding } from "./actions";
+import BiiioLogo from "@/components/BiiioLogo";
 
 const categories = [
   { label: "Designer", emoji: "🎨" },
@@ -48,7 +49,7 @@ export default function OnboardingPage() {
 
       {/* Header */}
       <header className="flex items-center justify-between px-8 py-5">
-        <span className="font-black text-xl tracking-tighter text-[#1a1c1c] uppercase">Biiio</span>
+        <BiiioLogo size="md" />
         <span className="text-xs font-bold text-[#7c7480] uppercase tracking-widest">Step 2 of 2</span>
       </header>
 

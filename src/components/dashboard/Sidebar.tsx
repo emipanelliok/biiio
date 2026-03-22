@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Link2, BarChart2, Palette, Settings, LogOut } from "lucide-react";
 import { logout } from "@/app/login/actions";
+import BiiioLogo from "@/components/BiiioLogo";
 
 const navItems = [
   { label: "Links",     href: "/dashboard",           icon: Link2,    hoverColor: "#d2aef8" },
@@ -19,7 +20,7 @@ export default function Sidebar() {
     <aside className="w-60 min-h-screen bg-[#f6f3f2] flex flex-col py-8 px-4 flex-shrink-0">
       {/* Logo */}
       <div className="px-2 pb-8">
-        <span className="font-black tracking-tighter text-2xl text-[#111] uppercase">Biiio</span>
+        <BiiioLogo size="lg" />
       </div>
 
       {/* Nav */}
