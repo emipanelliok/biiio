@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { updateProfile, updateAvatar } from "./actions";
-import { Camera } from "lucide-react";
+import { Camera, Shield, Lock, Mail, Bell } from "lucide-react";
 
 interface Props {
   profile: {
@@ -23,6 +23,12 @@ export default function SettingsForm({ profile }: Props) {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
+
+  // Local-only toggles (not saved to DB yet)
+  const [twoFA, setTwoFA] = useState(false);
+  const [notifClicks, setNotifClicks] = useState(true);
+  const [notifMilestones, setNotifMilestones] = useState(true);
+  const [notifWeekly, setNotifWeekly] = useState(false);
 
   async function handleSave() {
     setSaving(true);
@@ -47,12 +53,10 @@ export default function SettingsForm({ profile }: Props) {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Preview
     const reader = new FileReader();
     reader.onload = (ev) => setAvatarPreview(ev.target?.result as string);
     reader.readAsDataURL(file);
 
-    // Upload
     const formData = new FormData();
     formData.set("avatar", file);
     const result = await updateAvatar(formData);
@@ -70,7 +74,8 @@ export default function SettingsForm({ profile }: Props) {
     bio !== profile.bio;
 
   return (
-    <div className="p-8 md:p-12 max-w-3xl flex flex-col gap-10">
+    <div className="p-8 md:p-12 max-w-3xl flex flex-col gap-8">
+      {/* Header */}
       <div>
         <h1 className="font-black text-4xl tracking-tighter text-[#1c1b1b]">
           Account <span className="marker">Settings</span>
@@ -89,16 +94,18 @@ export default function SettingsForm({ profile }: Props) {
         </div>
       )}
 
-      {/* Avatar */}
+      {/* Profile Card — Avatar + Name + Email + Bio */}
       <div
-        className="bg-white rounded-3xl p-8"
+        className="bg-white rounded-3xl p-8 flex flex-col gap-6"
         style={{ boxShadow: "0 20px 40px rgba(26,28,28,0.04)" }}
       >
-        <h2 className="text-xs font-bold uppercase tracking-widest text-[#7b7487] mb-6">Profile Photo</h2>
-        <div className="flex items-center gap-6">
+        <h2 className="text-xs font-bold uppercase tracking-widest text-[#7b7487]">Your Profile</h2>
+
+        {/* Avatar row */}
+        <div className="flex items-center gap-5">
           <div className="relative group cursor-pointer" onClick={() => fileRef.current?.click()}>
             <div
-              className="w-20 h-20 rounded-full bg-[#f3f3f3] bg-cover bg-center"
+              className="w-20 h-20 rounded-full bg-[#f3f3f3] bg-cover bg-center border-4 border-white shadow-lg"
               style={{
                 backgroundImage: avatarPreview
                   ? `url(${avatarPreview})`
@@ -116,20 +123,19 @@ export default function SettingsForm({ profile }: Props) {
               className="hidden"
             />
           </div>
-          <div>
-            <p className="text-sm font-bold text-[#1c1b1b]">Change photo</p>
-            <p className="text-xs text-[#7b7487] mt-0.5">JPG, PNG. Max 2MB.</p>
+          <div className="flex-1">
+            <p className="font-black text-lg text-[#1c1b1b]">{displayName || username}</p>
+            <p className="text-xs text-[#7b7487]">{profile.email}</p>
           </div>
+          <button
+            onClick={() => fileRef.current?.click()}
+            className="px-5 py-2 rounded-full bg-[#f3f3f3] text-[#705092] font-bold text-xs hover:bg-[#d2aef8]/20 transition-colors"
+          >
+            Change Photo
+          </button>
         </div>
-      </div>
 
-      {/* Profile info */}
-      <div
-        className="bg-white rounded-3xl p-8 flex flex-col gap-6"
-        style={{ boxShadow: "0 20px 40px rgba(26,28,28,0.04)" }}
-      >
-        <h2 className="text-xs font-bold uppercase tracking-widest text-[#7b7487]">Profile Information</h2>
-
+        {/* Fields */}
         <div className="flex flex-col gap-2">
           <label className="text-xs font-bold uppercase tracking-widest text-[#7b7487]">Display Name</label>
           <input
@@ -153,11 +159,14 @@ export default function SettingsForm({ profile }: Props) {
 
         <div className="flex flex-col gap-2">
           <label className="text-xs font-bold uppercase tracking-widest text-[#7b7487]">Email</label>
-          <input
-            value={profile.email}
-            disabled
-            className="bg-[#f3f3f3] rounded-xl px-4 py-3.5 text-sm font-medium text-[#aaa3b5] cursor-not-allowed"
-          />
+          <div className="flex items-center gap-2">
+            <Mail className="w-4 h-4 text-[#cdc3d0]" />
+            <input
+              value={profile.email}
+              disabled
+              className="bg-[#f3f3f3] rounded-xl px-4 py-3.5 text-sm font-medium text-[#aaa3b5] cursor-not-allowed flex-1"
+            />
+          </div>
         </div>
 
         <div className="flex flex-col gap-2">
@@ -166,12 +175,105 @@ export default function SettingsForm({ profile }: Props) {
             value={bio}
             onChange={e => setBio(e.target.value)}
             rows={3}
-            className="bg-[#f3f3f3] rounded-xl px-4 py-3.5 text-sm font-medium text-[#1a1c1c] focus:outline-none focus:ring-2 focus:ring-[#d2aef8] resize-none"
+            placeholder="Tell your audience about yourself..."
+            className="bg-[#f3f3f3] rounded-xl px-4 py-3.5 text-sm font-medium text-[#1a1c1c] placeholder:text-[#cdc3d0] focus:outline-none focus:ring-2 focus:ring-[#d2aef8] resize-none"
           />
         </div>
       </div>
 
-      {/* Save bar */}
+      {/* Pro Plan Card */}
+      <div
+        className="rounded-3xl p-8 flex items-center justify-between"
+        style={{ backgroundColor: "#91cefb", boxShadow: "0 20px 40px rgba(145,206,251,0.3)" }}
+      >
+        <div>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-white/70 mb-1">Current Plan</p>
+          <p className="font-black text-2xl text-white tracking-tight">Pro Plan</p>
+          <p className="text-white/80 text-sm mt-1">Unlimited links, custom themes, analytics</p>
+        </div>
+        <button className="px-6 py-2.5 bg-white text-[#1c1b1b] rounded-full font-black text-sm hover:opacity-90 transition-opacity shadow-lg">
+          Manage
+        </button>
+      </div>
+
+      {/* Security & Privacy */}
+      <div
+        className="bg-white rounded-3xl p-8 flex flex-col gap-6"
+        style={{ boxShadow: "0 20px 40px rgba(26,28,28,0.04)" }}
+      >
+        <div className="flex items-center gap-2">
+          <Shield className="w-4 h-4 text-[#705092]" />
+          <h2 className="text-xs font-bold uppercase tracking-widest text-[#7b7487]">Security & Privacy</h2>
+        </div>
+
+        {/* 2FA Toggle */}
+        <div className="flex items-center justify-between py-3">
+          <div className="flex items-center gap-3">
+            <Lock className="w-4 h-4 text-[#7b7487]" />
+            <div>
+              <p className="text-sm font-bold text-[#1c1b1b]">Two-Factor Authentication</p>
+              <p className="text-xs text-[#7b7487]">Add an extra layer of security</p>
+            </div>
+          </div>
+          <div
+            onClick={() => setTwoFA(!twoFA)}
+            className="w-11 h-6 rounded-full relative cursor-pointer transition-colors"
+            style={{ backgroundColor: twoFA ? "#d2aef8" : "#e2e2e2" }}
+          >
+            <div
+              className="absolute top-[2px] w-5 h-5 bg-white rounded-full shadow transition-transform"
+              style={{ left: twoFA ? "22px" : "2px" }}
+            />
+          </div>
+        </div>
+
+        {/* Change password */}
+        <div className="flex items-center justify-between py-3">
+          <div>
+            <p className="text-sm font-bold text-[#1c1b1b]">Password</p>
+            <p className="text-xs text-[#7b7487]">Last changed 30 days ago</p>
+          </div>
+          <button className="px-5 py-2 rounded-full bg-[#f3f3f3] text-[#705092] font-bold text-xs hover:bg-[#d2aef8]/20 transition-colors">
+            Change
+          </button>
+        </div>
+      </div>
+
+      {/* Notifications */}
+      <div
+        className="bg-white rounded-3xl p-8 flex flex-col gap-5"
+        style={{ boxShadow: "0 20px 40px rgba(26,28,28,0.04)" }}
+      >
+        <div className="flex items-center gap-2">
+          <Bell className="w-4 h-4 text-[#705092]" />
+          <h2 className="text-xs font-bold uppercase tracking-widest text-[#7b7487]">Notifications</h2>
+        </div>
+
+        {[
+          { label: "Link click alerts", desc: "Get notified when someone clicks your links", state: notifClicks, set: setNotifClicks },
+          { label: "Milestone alerts", desc: "Celebrate when you hit view milestones", state: notifMilestones, set: setNotifMilestones },
+          { label: "Weekly digest", desc: "Summary of your performance every Monday", state: notifWeekly, set: setNotifWeekly },
+        ].map(({ label, desc, state, set }) => (
+          <div key={label} className="flex items-center justify-between py-2">
+            <div>
+              <p className="text-sm font-bold text-[#1c1b1b]">{label}</p>
+              <p className="text-xs text-[#7b7487]">{desc}</p>
+            </div>
+            <div
+              onClick={() => set(!state)}
+              className="w-11 h-6 rounded-full relative cursor-pointer transition-colors"
+              style={{ backgroundColor: state ? "#d2aef8" : "#e2e2e2" }}
+            >
+              <div
+                className="absolute top-[2px] w-5 h-5 bg-white rounded-full shadow transition-transform"
+                style={{ left: state ? "22px" : "2px" }}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Sticky Save Bar */}
       {hasChanges && (
         <div className="sticky bottom-6 bg-[#1c1b1b] text-white rounded-2xl p-4 flex items-center justify-between shadow-2xl">
           <p className="text-sm font-medium">You have unsaved changes</p>
