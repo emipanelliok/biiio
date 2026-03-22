@@ -36,6 +36,16 @@ export default async function DashboardPage() {
 
   const rawSocials = (socials || []) as { id: string; platform: string; url: string }[];
 
+  const appearance = {
+    markerColor: profile.marker_color || "#d2aef8",
+    buttonRoundness: profile.button_roundness || "Rounded",
+    buttonShadow: profile.button_shadow || "None",
+    buttonStyle: profile.button_style || "Bold",
+    buttonColor: profile.button_color || "#d2aef8",
+    headerStyle: profile.header_style || "rainbow",
+    socialPosition: ((profile.social_position as "above" | "below") || "above"),
+  };
+
   const profileData = {
     username: profile.username,
     displayName: profile.display_name || profile.username,
@@ -104,7 +114,7 @@ export default async function DashboardPage() {
 
       {/* Mobile preview panel — hidden on mobile */}
       <div className="hidden lg:flex w-[420px] flex-shrink-0 flex-col items-center pt-16 pb-8 bg-[#f6f3f2] border-l border-black/[0.05]">
-        <MobilePreview profile={profileData} />
+        <MobilePreview profile={profileData} appearance={appearance} />
         <p className="text-xs text-[#7b7487] font-bold uppercase tracking-widest mt-4">Live Preview</p>
         <p className="text-xs text-[#ccc3d8] mt-1">biiio.io/{profile.username}</p>
       </div>
