@@ -54,6 +54,7 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
   const btnRound = profile.button_roundness || "Rounded";
   const btnStyle = profile.button_style || "Bold";
   const btnColor = profile.button_color || "#d2aef8";
+  const socialPosition = (profile.social_position as "above" | "below") || "above";
 
   return (
     <main className="min-h-screen bg-[#fafafa] flex flex-col items-center">
@@ -106,7 +107,7 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
             )}
           </div>
 
-          {socials && socials.length > 0 && (
+          {socials && socials.length > 0 && socialPosition === "above" && (
             <SocialIcons socials={socials.map((s: { platform: string; url: string }) => ({
               platform: s.platform as "instagram" | "tiktok" | "youtube" | "x" | "spotify" | "github" | "linkedin",
               url: s.url,
@@ -131,6 +132,14 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
           ))}
         </div>
 
+        {/* Socials below links */}
+        {socials && socials.length > 0 && socialPosition === "below" && (
+          <SocialIcons socials={socials.map((s: { platform: string; url: string }) => ({
+            platform: s.platform as "instagram" | "tiktok" | "youtube" | "x" | "spotify" | "github" | "linkedin",
+            url: s.url,
+          }))} />
+        )}
+
         {(links || []).length === 0 && (
           <p className="text-center text-[#cdc3d0] text-sm py-8">No links yet.</p>
         )}
@@ -138,8 +147,9 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
         {/* Footer */}
         <div className="flex items-center justify-center gap-1.5 py-8">
           <span className="text-[#ccc3d8] text-xs">Powered by</span>
-          <a href="/" className="font-black text-xs text-[#d2aef8] uppercase tracking-tight hover:opacity-70 transition-opacity">
+          <a href="/" className="font-black text-sm text-[#1c1b1b] relative inline-block z-[1] hover:opacity-70 transition-opacity">
             Biiio
+            <span className="absolute left-[-3px] right-[-3px] bottom-[1px] h-[40%] z-[-1] rounded-[2px]" style={{ backgroundColor: "#f7d59e" }} />
           </a>
         </div>
       </div>

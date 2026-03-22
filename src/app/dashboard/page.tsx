@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import LinkEditor from "@/components/dashboard/LinkEditor";
 import MobilePreview from "@/components/dashboard/MobilePreview";
+import SocialEditor from "@/components/dashboard/SocialEditor";
 import { ExternalLink, Share2 } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -32,6 +33,8 @@ export default async function DashboardPage() {
     .select("*")
     .eq("user_id", user.id);
 
+  const rawSocials = (socials || []) as { id: string; platform: string; url: string }[];
+
   const profileData = {
     username: profile.username,
     displayName: profile.display_name || profile.username,
@@ -39,7 +42,7 @@ export default async function DashboardPage() {
     avatarUrl: profile.avatar_url || `https://api.dicebear.com/7.x/initials/svg?seed=${profile.username}`,
     accentColor: "#d2aef8",
     theme: profile.theme || "pastel-dream",
-    socials: (socials || []).map((s: { platform: string; url: string }) => ({
+    socials: rawSocials.map(s => ({
       platform: s.platform as "instagram" | "tiktok" | "youtube" | "x" | "spotify" | "github" | "linkedin",
       url: s.url,
     })),
@@ -93,6 +96,10 @@ export default async function DashboardPage() {
             <p className="text-[#7b7487] text-sm mt-1">Curate your digital identity by adding and organizing your favorite destinations.</p>
           </div>
 
+          <SocialEditor
+            socials={rawSocials}
+            socialPosition={(profile.social_position as "above" | "below") || "above"}
+          />
           <LinkEditor links={profileData.links} />
         </div>
       </div>
