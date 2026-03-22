@@ -39,7 +39,10 @@ export default function SettingsForm({ profile }: Props) {
     formData.set("username", username);
     const result = await updateProfile(formData);
     if (result?.error) setError(result.error);
-    else setMessage("Profile saved!");
+    else {
+      setMessage("Profile saved!");
+      setTimeout(() => setMessage(""), 3000);
+    }
     setSaving(false);
   }
 
@@ -57,6 +60,11 @@ export default function SettingsForm({ profile }: Props) {
   }
 
   const avatarSrc = avatarPreview || `https://api.dicebear.com/7.x/initials/svg?seed=${username}`;
+
+  const isDirty =
+    displayName !== profile.displayName ||
+    username !== profile.username ||
+    bio !== profile.bio;
 
   return (
     <div className="p-4 md:p-8 lg:p-12 max-w-6xl pb-32">
@@ -231,8 +239,8 @@ export default function SettingsForm({ profile }: Props) {
         </div>
       </div>
 
-      {/* Floating Save Bar */}
-      <div className="fixed bottom-[60px] md:bottom-8 left-0 md:left-60 right-0 px-4 md:px-12 z-50 pointer-events-none">
+      {/* Floating Save Bar — only when dirty */}
+      <div className={`fixed bottom-[60px] md:bottom-8 left-0 md:left-60 right-0 px-4 md:px-12 z-50 pointer-events-none transition-all duration-300 ${isDirty ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"}`}>
         <div className="max-w-4xl mx-auto bg-[#1c1b1b]/90 backdrop-blur-xl text-white p-3 md:p-4 rounded-full flex items-center justify-between shadow-2xl pointer-events-auto">
           <div className="hidden md:flex items-center gap-4 px-4">
             <Sparkles className="w-4 h-4 text-[#f7d59e]" />
