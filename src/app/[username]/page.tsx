@@ -3,21 +3,36 @@ import SocialIcons from "@/components/profile/SocialIcons";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
-function getButtonStyle(round: string, style: string, color: string) {
+const HEADER_PATTERNS: Record<string, string> = {
+  rainbow:        "linear-gradient(135deg, #f09ba4, #f7d59e, #91cefb, #d2aef8)",
+  violet:         "#d2aef8",
+  celeste:        "#91cefb",
+  pink:           "#f09ba4",
+  yellow:         "#f7d59e",
+  "violet-pink":  "linear-gradient(135deg, #d2aef8, #f09ba4)",
+  "celeste-violet":"linear-gradient(135deg, #91cefb, #d2aef8)",
+  "yellow-pink":  "linear-gradient(135deg, #f7d59e, #f09ba4)",
+  dark:           "#1c1b1b",
+  "dark-violet":  "linear-gradient(135deg, #1c1b1b, #4a4455)",
+};
+
+function getButtonStyle(round: string, shadow: string, style: string, color: string) {
   const radius =
-    round === "Round" ? "9999px" :
+    round === "Round"   ? "9999px" :
     round === "Rounded" ? "12px" :
-    round === "Square" ? "4px" : "4px";
-  const shadow = round === "Hard Shadow" ? "4px 4px 0px #1a1c1c" : "none";
+    round === "Hard Shadow" ? "4px" : "4px"; // backward compat
+
+  const shadowVal =
+    (shadow === "Hard" || round === "Hard Shadow") ? "4px 4px 0px #1a1c1c" :
+    shadow === "Soft" ? `0 4px 12px ${color}50` : "none";
 
   if (style === "Bold") {
-    return { backgroundColor: color, color: "#1c1b1b", borderRadius: radius, boxShadow: shadow, border: "none" };
+    return { backgroundColor: color, color: "#1c1b1b", borderRadius: radius, boxShadow: shadowVal, border: "none" };
   }
   if (style === "Outline") {
-    return { backgroundColor: "transparent", color: color === "#f6f3f2" ? "#1c1b1b" : color, borderRadius: radius, boxShadow: shadow, border: `2px solid ${color}` };
+    return { backgroundColor: "transparent", color: color === "#f6f3f2" ? "#1c1b1b" : color, borderRadius: radius, boxShadow: shadowVal, border: `2px solid ${color}` };
   }
-  // Soft
-  return { backgroundColor: color + "20", color: color === "#f6f3f2" ? "#1c1b1b" : color, borderRadius: radius, boxShadow: shadow, border: "none" };
+  return { backgroundColor: color + "20", color: color === "#f6f3f2" ? "#1c1b1b" : color, borderRadius: radius, boxShadow: shadowVal, border: "none" };
 }
 
 export default async function ProfilePage({ params }: { params: Promise<{ username: string }> }) {
@@ -52,16 +67,18 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
   // Appearance settings from DB
   const markerColor = profile.marker_color || "#d2aef8";
   const btnRound = profile.button_roundness || "Rounded";
+  const btnShadow = profile.button_shadow || "None";
   const btnStyle = profile.button_style || "Bold";
   const btnColor = profile.button_color || "#d2aef8";
   const socialPosition = (profile.social_position as "above" | "below") || "above";
+  const headerBg = HEADER_PATTERNS[profile.header_style as string] || HEADER_PATTERNS.rainbow;
 
   return (
     <main className="min-h-screen bg-[#fafafa] flex flex-col items-center">
       {/* Cover gradient */}
       <div
         className="w-full h-48 md:h-56"
-        style={{ background: "linear-gradient(135deg, #f09ba4, #f7d59e, #91cefb, #d2aef8)" }}
+        style={{ background: headerBg }}
       />
 
       <div className="w-full max-w-[480px] flex flex-col gap-5 px-4 -mt-16">
@@ -124,7 +141,7 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
               target="_blank"
               rel="noopener noreferrer"
               className="w-full py-4 px-6 text-center font-bold text-sm transition-all hover:scale-[1.02] hover:shadow-lg flex items-center justify-center gap-2"
-              style={getButtonStyle(btnRound, btnStyle, btnColor)}
+              style={getButtonStyle(btnRound, btnShadow, btnStyle, btnColor)}
             >
               {link.emoji && <span>{link.emoji}</span>}
               {link.title}

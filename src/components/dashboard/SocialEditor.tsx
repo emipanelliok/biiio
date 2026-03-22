@@ -92,6 +92,11 @@ const platforms = [
     icon: <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>,
   },
   {
+    id: "kick", label: "Kick", color: "#53FC18",
+    placeholder: "kick.com/yourname",
+    icon: <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M2 2h5v7l5-7h6l-6 8 6 6h-6l-5-6v6H2z"/></svg>,
+  },
+  {
     id: "email", label: "Email", color: "#EA4335",
     placeholder: "yourname@gmail.com",
     icon: <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>,
