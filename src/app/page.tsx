@@ -22,9 +22,9 @@ export default function LandingPage() {
           </div>
         </div>
         <div className="flex items-center gap-5">
-          <Link href="/dashboard" className="text-sm font-semibold text-[#1c1b1b] hover:opacity-70 transition-opacity">Log In</Link>
+          <Link href="/login" className="text-sm font-semibold text-[#1c1b1b] hover:opacity-70 transition-opacity">Log In</Link>
           <Link
-            href="/dashboard"
+            href="/signup"
             className="bg-[#d2aef8] text-[#1c1b1b] px-7 py-2.5 rounded-full text-sm font-bold shadow-lg shadow-[#d2aef8]/30 hover:opacity-90 transition-opacity"
           >
             Sign Up
@@ -53,9 +53,9 @@ export default function LandingPage() {
                 type="text"
               />
             </div>
-            <button className="bg-[#1c1b1b] text-white px-7 py-3.5 rounded-full font-black text-sm hover:opacity-80 transition-opacity whitespace-nowrap">
+            <Link href="/signup" className="bg-[#1c1b1b] text-white px-7 py-3.5 rounded-full font-black text-sm hover:opacity-80 transition-opacity whitespace-nowrap">
               Get Started
-            </button>
+            </Link>
           </div>
           <p className="mt-3 px-5 text-xs text-[#7b7487] italic">It's free, and takes less than a minute.</p>
         </div>

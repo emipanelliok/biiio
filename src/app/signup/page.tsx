@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { login } from "./actions";
 import { useState } from "react";
+import { signup } from "./actions";
 
-export default function LoginPage() {
+export default function SignupPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -13,7 +13,7 @@ export default function LoginPage() {
     setError("");
     setLoading(true);
     const formData = new FormData(e.currentTarget);
-    const result = await login(formData);
+    const result = await signup(formData);
     if (result?.error) {
       setError(result.error);
       setLoading(false);
@@ -30,15 +30,15 @@ export default function LoginPage() {
         </div>
         <div className="relative z-10">
           <h1 className="font-black text-5xl tracking-tighter text-white leading-tight mb-6">
-            Welcome<br />back to<br /><span className="text-[#d2aef8]">Biiio</span>
+            Start your<br />digital <span className="text-[#d2aef8]">journey</span>
           </h1>
           <p className="text-[#7c7480] text-lg leading-relaxed max-w-sm">
-            Your curated digital landscape. Access your links, analytics, and personal brand with elegance and intentionality.
+            Join thousands of creators who use Biiio to share their world through one beautiful link.
           </p>
         </div>
         <div className="relative z-10 bg-white/[0.06] rounded-2xl p-5 border border-white/[0.08]">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-[#d2aef8] mb-2">CURATION</p>
-          <p className="text-white/80 text-sm italic leading-relaxed">&ldquo;The details are not the details. They make the design.&rdquo;</p>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-[#d2aef8] mb-2">FREE FOREVER</p>
+          <p className="text-white/80 text-sm italic leading-relaxed">&ldquo;Set up in minutes. Beautiful by default.&rdquo;</p>
         </div>
       </div>
       <div className="flex-1 flex items-center justify-center px-8 bg-[#fcf9f8]">
@@ -46,8 +46,8 @@ export default function LoginPage() {
           <div className="lg:hidden mb-10">
             <span className="font-black text-2xl tracking-tighter text-[#1a1c1c] uppercase">Biiio</span>
           </div>
-          <h2 className="font-black text-3xl tracking-tighter text-[#1a1c1b] mb-2">Sign in</h2>
-          <p className="text-[#7c7480] text-sm mb-8">Enter your credentials to continue to your dashboard.</p>
+          <h2 className="font-black text-3xl tracking-tighter text-[#1a1c1b] mb-2">Create account</h2>
+          <p className="text-[#7c7480] text-sm mb-8">Sign up to start building your digital identity.</p>
 
           {error && (
             <div className="bg-[#f09ba4]/20 text-[#9a2c2c] text-sm font-medium px-4 py-3 rounded-2xl mb-4">
@@ -58,21 +58,18 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit} className="flex flex-col gap-5">
             <div className="flex flex-col gap-1.5">
               <label className="text-[10px] font-bold uppercase tracking-widest text-[#7c7480]">Email Address</label>
-              <input name="email" type="email" required placeholder="curator@biiio.io" className="bg-[#f3f3f3] border-none rounded-2xl px-4 py-3.5 text-sm font-medium text-[#1a1c1c] placeholder:text-[#cdc3d0] focus:outline-none focus:ring-2 focus:ring-[#d2aef8]" />
+              <input name="email" type="email" required placeholder="you@email.com" className="bg-[#f3f3f3] border-none rounded-2xl px-4 py-3.5 text-sm font-medium text-[#1a1c1c] placeholder:text-[#cdc3d0] focus:outline-none focus:ring-2 focus:ring-[#d2aef8]" />
             </div>
             <div className="flex flex-col gap-1.5">
-              <div className="flex justify-between items-center">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-[#7c7480]">Password</label>
-                <a href="#" className="text-xs text-[#d2aef8] font-bold hover:opacity-70 transition-opacity">Forgot?</a>
-              </div>
-              <input name="password" type="password" required placeholder="••••••••" className="bg-[#f3f3f3] border-none rounded-2xl px-4 py-3.5 text-sm font-medium text-[#1a1c1c] focus:outline-none focus:ring-2 focus:ring-[#d2aef8]" />
+              <label className="text-[10px] font-bold uppercase tracking-widest text-[#7c7480]">Password</label>
+              <input name="password" type="password" required minLength={6} placeholder="••••••••" className="bg-[#f3f3f3] border-none rounded-2xl px-4 py-3.5 text-sm font-medium text-[#1a1c1c] focus:outline-none focus:ring-2 focus:ring-[#d2aef8]" />
             </div>
             <button
               type="submit"
               disabled={loading}
               className="w-full py-4 bg-[#d2aef8] text-[#1c1b1b] rounded-full font-black text-sm text-center hover:opacity-90 transition-opacity shadow-lg shadow-[#d2aef8]/30 mt-2 disabled:opacity-50"
             >
-              {loading ? "Signing in..." : "Login →"}
+              {loading ? "Creating account..." : "Sign Up →"}
             </button>
           </form>
           <div className="flex items-center gap-4 my-6">
@@ -85,8 +82,8 @@ export default function LoginPage() {
             Continue with Google
           </button>
           <p className="text-center text-sm text-[#7c7480] mt-6">
-            Don&apos;t have an account?{" "}
-            <Link href="/signup" className="text-[#d2aef8] font-black hover:opacity-70 transition-opacity">Sign up</Link>
+            Already have an account?{" "}
+            <Link href="/login" className="text-[#d2aef8] font-black hover:opacity-70 transition-opacity">Sign in</Link>
           </p>
         </div>
       </div>
