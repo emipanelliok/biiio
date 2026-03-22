@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { X, Check, Copy, QrCode } from "lucide-react";
 
 const PLATFORMS = [
@@ -25,7 +26,7 @@ const PLATFORMS = [
       </svg>
     ),
     getUrl: (url: string, username: string) =>
-      `https://twitter.com/intent/tweet?text=Check+out+my+links+%40${username}&url=${encodeURIComponent(url)}`,
+      `https://twitter.com/intent/tweet?text=Check+out+%40${username}+on+Biiio&url=${encodeURIComponent(url)}`,
   },
   {
     id: "facebook",
@@ -58,10 +59,23 @@ interface Props {
   onClose: () => void;
 }
 
-export default function ShareModal({ username, onClose }: Props) {
+function ModalContent({ username, onClose }: Props) {
   const profileUrl = `https://biiio.io/${username}`;
   const [copied, setCopied] = useState(false);
   const [showQr, setShowQr] = useState(false);
+
+  // Close on Escape
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [onClose]);
+
+  // Prevent body scroll
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = ""; };
+  }, []);
 
   async function copyUrl() {
     await navigator.clipboard.writeText(profileUrl);
@@ -70,13 +84,16 @@ export default function ShareModal({ username, onClose }: Props) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center" onClick={onClose}>
+    <div
+      className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center"
+      onClick={onClose}
+    >
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
 
       {/* Modal */}
       <div
-        className="relative bg-white w-full sm:max-w-sm rounded-t-3xl sm:rounded-3xl p-6 shadow-2xl z-10"
+        className="relative bg-white w-full sm:max-w-sm rounded-t-3xl sm:rounded-3xl p-6 shadow-2xl z-10 max-h-[90vh] overflow-y-auto"
         onClick={e => e.stopPropagation()}
       >
         {/* Header */}
@@ -100,8 +117,8 @@ export default function ShareModal({ username, onClose }: Props) {
           </button>
         </div>
 
-        {/* QR toggle */}
-        {showQr ? (
+        {/* QR */}
+        {showQr && (
           <div className="flex flex-col items-center mb-5">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -113,11 +130,11 @@ export default function ShareModal({ username, onClose }: Props) {
               Hide QR
             </button>
           </div>
-        ) : null}
+        )}
 
         {/* Share to */}
         <p className="text-[10px] font-bold uppercase tracking-widest text-[#7c7480] mb-3">Share to</p>
-        <div className="grid grid-cols-4 gap-3">
+        <div className="grid grid-cols-5 gap-3">
           {PLATFORMS.map(p => (
             <a
               key={p.id}
@@ -135,8 +152,6 @@ export default function ShareModal({ username, onClose }: Props) {
               <span className="text-[10px] font-bold text-[#7c7480] text-center leading-tight">{p.label}</span>
             </a>
           ))}
-
-          {/* QR Code */}
           <button
             onClick={() => setShowQr(v => !v)}
             className="flex flex-col items-center gap-1.5 group"
@@ -150,4 +165,11 @@ export default function ShareModal({ username, onClose }: Props) {
       </div>
     </div>
   );
+}
+
+export default function ShareModal({ username, onClose }: Props) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
+  return createPortal(<ModalContent username={username} onClose={onClose} />, document.body);
 }

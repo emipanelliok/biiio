@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import SocialIcons from "@/components/profile/SocialIcons";
+import ViewTracker from "@/components/profile/ViewTracker";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
@@ -75,6 +76,7 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
 
   return (
     <main className="min-h-screen bg-[#fafafa] flex flex-col items-center">
+      <ViewTracker username={username} />
       {/* Cover gradient */}
       <div
         className="w-full h-48 md:h-56"
@@ -137,7 +139,7 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
           {(links || []).map((link: { id: string; title: string; url: string; emoji: string | null }) => (
             <a
               key={link.id}
-              href={link.url}
+              href={`/api/r/${link.id}`}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full py-4 px-6 text-center font-bold text-sm transition-all hover:scale-[1.02] hover:shadow-lg flex items-center justify-center gap-2"
