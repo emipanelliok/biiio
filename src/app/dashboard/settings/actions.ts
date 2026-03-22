@@ -8,9 +8,14 @@ export async function updateProfile(formData: FormData) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: "Not authenticated" };
 
-  const display_name = formData.get("display_name") as string;
-  const bio = formData.get("bio") as string;
-  const username = formData.get("username") as string;
+  const display_name = (formData.get("display_name") as string)?.trim().slice(0, 100);
+  const bio = (formData.get("bio") as string)?.trim().slice(0, 500);
+  const username = (formData.get("username") as string)?.trim().toLowerCase();
+
+  if (!username) return { error: "El username es requerido" };
+  if (!/^[a-zA-Z0-9_-]{3,30}$/.test(username)) {
+    return { error: "Username inválido. Solo letras, números, guión y guión bajo (3-30 caracteres)" };
+  }
 
   const { error } = await supabase
     .from("profiles")

@@ -72,8 +72,10 @@ export default function SettingsForm({ profile }: Props) {
     if (uploadError) { setError(uploadError.message); setSaving(false); return; }
 
     const { data: { publicUrl } } = supabase.storage.from("avatars").getPublicUrl(path);
+    // Append cache-busting param so browsers don't serve the old cached image
+    const bustUrl = `${publicUrl}?t=${Date.now()}`;
 
-    const result = await saveAvatarUrl(publicUrl);
+    const result = await saveAvatarUrl(bustUrl);
     if (result?.error) setError(result.error);
     else { setAvatarPreview(publicUrl); setMessage("Avatar updated!"); }
 

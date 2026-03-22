@@ -133,8 +133,20 @@ export default function SocialEditor({ socials: initialSocials, socialPosition: 
     // Email: prepend mailto: if needed
     if (selectedPlatform === "email") {
       if (!finalUrl.startsWith("mailto:")) finalUrl = "mailto:" + finalUrl;
-    } else if (!finalUrl.startsWith("http")) {
-      finalUrl = "https://" + finalUrl;
+    } else {
+      if (!finalUrl.startsWith("http")) finalUrl = "https://" + finalUrl;
+      // Reject non-http(s) protocols
+      try {
+        const parsed = new URL(finalUrl);
+        if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+          setSaving(false);
+          return;
+        }
+        finalUrl = parsed.toString();
+      } catch {
+        setSaving(false);
+        return;
+      }
     }
     await addSocial(selectedPlatform, finalUrl);
     setSocials(prev => {

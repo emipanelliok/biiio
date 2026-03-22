@@ -3,6 +3,16 @@
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 
+function validateUrl(url: string): string | null {
+  try {
+    const parsed = new URL(url);
+    if (parsed.protocol !== "http:" && parsed.protocol !== "https:") return null;
+    return parsed.toString();
+  } catch {
+    return null;
+  }
+}
+
 async function getUserAndUsername() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -61,10 +71,14 @@ export async function addLink(formData: FormData) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: "Not authenticated" };
 
-  const title = formData.get("title") as string;
-  const url = formData.get("url") as string;
+  const title = (formData.get("title") as string)?.trim().slice(0, 100);
+  const rawUrl = formData.get("url") as string;
   const emoji = (formData.get("emoji") as string) || null;
   const type = (formData.get("type") as string) || "link";
+
+  const url = validateUrl(rawUrl);
+  if (!url) return { error: "URL inválida. Debe comenzar con http:// o https://" };
+  if (!title) return { error: "El título es requerido" };
 
   // Get max sort_order
   const { data: existing } = await supabase
@@ -97,9 +111,13 @@ export async function updateLink(formData: FormData) {
   if (!user) return { error: "Not authenticated" };
 
   const id = formData.get("id") as string;
-  const title = formData.get("title") as string;
-  const url = formData.get("url") as string;
+  const title = (formData.get("title") as string)?.trim().slice(0, 100);
+  const rawUrl = formData.get("url") as string;
   const emoji = (formData.get("emoji") as string) || null;
+
+  const url = validateUrl(rawUrl);
+  if (!url) return { error: "URL inválida. Debe comenzar con http:// o https://" };
+  if (!title) return { error: "El título es requerido" };
 
   const { error } = await supabase
     .from("links")

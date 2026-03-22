@@ -25,5 +25,17 @@ export async function GET(
     .eq("id", linkId)
     .then(() => {});
 
-  return NextResponse.redirect(link.url);
+  // Validate URL protocol to prevent open redirect attacks
+  let safeUrl: string;
+  try {
+    const parsed = new URL(link.url);
+    if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+      return NextResponse.redirect("https://biiio.io");
+    }
+    safeUrl = parsed.toString();
+  } catch {
+    return NextResponse.redirect("https://biiio.io");
+  }
+
+  return NextResponse.redirect(safeUrl);
 }
