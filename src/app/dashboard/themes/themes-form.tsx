@@ -233,7 +233,7 @@ export default function ThemesForm({ initial }: Props) {
       </div>
 
       {/* Save bar */}
-      <div className="sticky bottom-0 bg-[#1a1c1c] px-4 md:px-10 py-3 md:py-4 flex items-center justify-between z-40 mb-[60px] md:mb-0">
+      <div className="sticky bottom-0 bg-[#1a1c1c] px-4 md:px-10 py-3 md:py-4 flex items-center justify-between z-40 mb-24 md:mb-0">
         <div className="hidden sm:flex items-center gap-2 text-white text-sm">
           <span className="text-[#f7d59e]">✦</span>
           Unsaved Changes — <span className="text-[#d2aef8] font-bold ml-1">{currentTheme.name}</span>

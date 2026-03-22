@@ -240,7 +240,7 @@ export default function SettingsForm({ profile }: Props) {
       </div>
 
       {/* Floating Save Bar — only when dirty */}
-      <div className={`fixed bottom-[60px] md:bottom-8 left-0 md:left-60 right-0 px-4 md:px-12 z-50 pointer-events-none transition-all duration-300 ${isDirty ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"}`}>
+      <div className={`fixed bottom-24 md:bottom-8 left-0 md:left-60 right-0 px-4 md:px-12 z-50 pointer-events-none transition-all duration-300 ${isDirty ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"}`}>
         <div className="max-w-4xl mx-auto bg-[#1c1b1b]/90 backdrop-blur-xl text-white p-3 md:p-4 rounded-full flex items-center justify-between shadow-2xl pointer-events-auto">
           <div className="hidden md:flex items-center gap-4 px-4">
             <Sparkles className="w-4 h-4 text-[#f7d59e]" />

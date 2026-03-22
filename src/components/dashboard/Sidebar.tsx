@@ -60,28 +60,27 @@ export default function Sidebar() {
         </div>
       </aside>
 
-      {/* Mobile bottom tab bar */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-xl border-t border-black/[0.06] px-2 pb-[env(safe-area-inset-bottom)]">
-        <div className="flex items-center justify-around">
+      {/* Mobile floating pill nav */}
+      <nav className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
+        <div className="flex items-center gap-1 bg-white rounded-full px-2 py-2 shadow-xl shadow-black/10 border border-black/[0.06]">
           {navItems.map(({ label, href, icon: Icon }) => {
             const active = pathname === href || (href !== "/dashboard" && pathname.startsWith(href));
             return (
               <Link
                 key={href}
                 href={href}
-                className="flex flex-col items-center gap-1 py-3 px-3 min-w-0 transition-colors"
+                className="flex flex-col items-center gap-0.5 px-3.5 py-1.5 rounded-full transition-all"
+                style={active
+                  ? { backgroundColor: "#d2aef8" }
+                  : {}
+                }
               >
-                <div
-                  className="w-10 h-10 rounded-full flex items-center justify-center transition-all"
-                  style={active
-                    ? { backgroundColor: "#d2aef8", color: "#1c1b1b" }
-                    : { color: "#7b7487" }
-                  }
-                >
-                  <Icon className="w-5 h-5" />
-                </div>
+                <Icon
+                  className="w-5 h-5"
+                  style={{ color: active ? "#1c1b1b" : "#7b7487" }}
+                />
                 <span
-                  className="text-[10px] font-bold"
+                  className="text-[9px] font-bold"
                   style={{ color: active ? "#1c1b1b" : "#7b7487" }}
                 >
                   {label}
