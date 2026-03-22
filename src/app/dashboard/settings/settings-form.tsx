@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { updateProfile, updateAvatar, removeAvatar } from "./actions";
+import { updateProfile, saveAvatarUrl, removeAvatar } from "./actions";
+import { createClient } from "@/lib/supabase/client";
 import { Camera, Shield, Lock, Bell, Sparkles, KeyRound, X } from "lucide-react";
 
 interface Props {
@@ -49,14 +50,34 @@ export default function SettingsForm({ profile }: Props) {
   async function handleAvatarChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    // Show preview immediately
     const reader = new FileReader();
     reader.onload = (ev) => setAvatarPreview(ev.target?.result as string);
     reader.readAsDataURL(file);
-    const formData = new FormData();
-    formData.set("avatar", file);
-    const result = await updateAvatar(formData);
+
+    setSaving(true);
+    setError("");
+
+    // Upload directly from browser using the user's browser session
+    const supabase = createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) { setError("Not authenticated"); setSaving(false); return; }
+
+    const path = `${user.id}/avatar`;
+    const { error: uploadError } = await supabase.storage
+      .from("avatars")
+      .upload(path, file, { upsert: true, contentType: file.type });
+
+    if (uploadError) { setError(uploadError.message); setSaving(false); return; }
+
+    const { data: { publicUrl } } = supabase.storage.from("avatars").getPublicUrl(path);
+
+    const result = await saveAvatarUrl(publicUrl);
     if (result?.error) setError(result.error);
-    else if (result?.url) { setAvatarPreview(result.url); setMessage("Avatar updated!"); }
+    else { setAvatarPreview(publicUrl); setMessage("Avatar updated!"); }
+
+    setSaving(false);
   }
 
   const hasRealAvatar = avatarPreview && !avatarPreview.startsWith("https://api.dicebear.com");

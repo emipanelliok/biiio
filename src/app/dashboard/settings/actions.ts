@@ -49,34 +49,19 @@ export async function removeAvatar() {
   return { success: true };
 }
 
-export async function updateAvatar(formData: FormData) {
+export async function saveAvatarUrl(url: string) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: "Not authenticated" };
 
-  const file = formData.get("avatar") as File;
-  if (!file || file.size === 0) return { error: "No file provided" };
-
-  const path = `${user.id}/avatar`;
-
-  const { error: uploadError } = await supabase.storage
-    .from("avatars")
-    .upload(path, file, { upsert: true, contentType: file.type });
-
-  if (uploadError) return { error: uploadError.message };
-
-  const { data: { publicUrl } } = supabase.storage
-    .from("avatars")
-    .getPublicUrl(path);
-
-  const { error: updateError } = await supabase
+  const { error } = await supabase
     .from("profiles")
-    .update({ avatar_url: publicUrl })
+    .update({ avatar_url: url })
     .eq("id", user.id);
 
-  if (updateError) return { error: updateError.message };
+  if (error) return { error: error.message };
 
   revalidatePath("/dashboard");
   revalidatePath("/dashboard/settings");
-  return { success: true, url: publicUrl };
+  return { success: true };
 }
