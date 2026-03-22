@@ -40,12 +40,11 @@ export async function updateAvatar(formData: FormData) {
   const file = formData.get("avatar") as File;
   if (!file || file.size === 0) return { error: "No file provided" };
 
-  const ext = file.name.split(".").pop();
-  const path = `${user.id}/avatar.${ext}`;
+  const path = `${user.id}/avatar`;
 
   const { error: uploadError } = await supabase.storage
     .from("avatars")
-    .upload(path, file, { upsert: true });
+    .upload(path, file, { upsert: true, contentType: file.type });
 
   if (uploadError) return { error: uploadError.message };
 
