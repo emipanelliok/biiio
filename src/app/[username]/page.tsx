@@ -66,7 +66,7 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
           </div>
 
           {socials && socials.length > 0 && (
-            <SocialIcons socials={socials.map((s: { platform: string; url: string }) => ({ platform: s.platform, url: s.url }))} />
+            <SocialIcons socials={socials.map((s: { platform: string; url: string }) => ({ platform: s.platform as "instagram" | "tiktok" | "youtube" | "x" | "spotify" | "github" | "linkedin", url: s.url }))} />
           )}
         </div>
 
