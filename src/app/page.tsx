@@ -121,39 +121,32 @@ export default function LandingPage() {
           <p className="mt-3 px-5 text-xs text-[#7b7487] italic">{t.hero.note}</p>
         </div>
 
-        {/* Phone mockup */}
-        <div className="relative flex justify-center items-center h-[440px] md:h-[520px] animate-in delay-2">
-          <div className="absolute w-[220px] md:w-[240px] h-[440px] md:h-[480px] rounded-[2.5rem] shadow-2xl rotate-[-10deg] -translate-x-16 md:-translate-x-20" style={{ backgroundColor: "#f09ba4", opacity: 0.35 }} />
-          <div className="absolute w-[230px] md:w-[250px] h-[460px] md:h-[500px] bg-white rounded-[2.5rem] shadow-2xl rotate-[-3deg] translate-x-4 md:translate-x-6 border-[5px] md:border-[6px] border-[#111] overflow-hidden">
-            <div className="h-full bg-[#fcf9f8] flex flex-col items-center pt-8 px-4 gap-3">
-              <div className="rounded-full border-4 border-white" style={{ width: 72, height: 72, backgroundColor: "#91cefb" }} />
-              <div className="text-center">
-                <p className="font-black text-sm text-[#111] tracking-tight">@sarah_creates</p>
-                <p className="text-[10px] text-[#4a4455] mt-0.5">
-                  {lang === "es" ? "Fotógrafa & Creadora" : "Photographer & Creator"}
-                </p>
-              </div>
-              {[
-                { label: lang === "es" ? "Mi Portfolio"      : "My Portfolio",   bg: "#d2aef8" },
-                { label: lang === "es" ? "Último video"      : "Latest video",   bg: "#91cefb" },
-                { label: lang === "es" ? "Agendá una call"   : "Book a call",    bg: "#f7d59e" },
-                { label: "Newsletter",                                             bg: "#f09ba4" },
-              ].map(({ label, bg }) => (
-                <div key={label} className="w-full py-2.5 rounded-full text-center text-[11px] font-bold text-[#1c1b1b]" style={{ backgroundColor: bg }}>
-                  {label}
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="absolute top-6 right-0 w-[140px] md:w-[160px] bg-white rounded-2xl shadow-xl p-3 md:p-4 rotate-[6deg] ghost-border">
-            <div className="text-[11px] font-bold text-[#111] mb-1">
-              {lang === "es" ? "Newsletter semanal" : "Weekly newsletter"}
-            </div>
-            <div className="text-[9px] text-[#4a4455]">
-              {lang === "es" ? "500+ suscriptores" : "500+ subscribers"}
-            </div>
-            <div className="mt-2 h-1.5 rounded-full w-3/4" style={{ backgroundColor: "#d2aef8" }} />
-          </div>
+        {/* Phone mockup — stacked collage */}
+        <div className="relative flex justify-center items-center h-[460px] md:h-[540px] animate-in delay-2">
+          {/* Back: celular2 (Jessica, pink) — rotated left */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/mockups/celular2.png"
+            alt="Biiio profile mockup"
+            className="absolute w-[200px] md:w-[230px] object-contain drop-shadow-2xl"
+            style={{ transform: "rotate(-12deg) translate(-80px, 20px)", zIndex: 1 }}
+          />
+          {/* Middle: celular1 (Alex, blue) — slight tilt */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/mockups/celular1.png"
+            alt="Biiio profile mockup"
+            className="absolute w-[210px] md:w-[240px] object-contain drop-shadow-2xl"
+            style={{ transform: "rotate(-4deg) translate(10px, -10px)", zIndex: 2 }}
+          />
+          {/* Front: celular4 (hand) — rotated right, focal point */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/mockups/celular4.png"
+            alt="Biiio profile mockup"
+            className="absolute w-[230px] md:w-[260px] object-contain drop-shadow-2xl"
+            style={{ transform: "rotate(8deg) translate(90px, 30px)", zIndex: 3 }}
+          />
         </div>
       </section>
 
