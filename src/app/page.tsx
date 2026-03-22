@@ -122,30 +122,30 @@ export default function LandingPage() {
         </div>
 
         {/* Phone mockup — stacked collage */}
-        <div className="relative flex justify-center items-center h-[460px] md:h-[540px] animate-in delay-2">
+        <div className="relative flex justify-center items-center h-[500px] md:h-[600px] animate-in delay-2">
           {/* Back: celular2 (Jessica, pink) — rotated left */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/mockups/celular2.png"
             alt="Biiio profile mockup"
-            className="absolute w-[200px] md:w-[230px] object-contain drop-shadow-2xl"
-            style={{ transform: "rotate(-12deg) translate(-80px, 20px)", zIndex: 1 }}
+            className="absolute w-[280px] md:w-[340px] object-contain drop-shadow-2xl"
+            style={{ transform: "rotate(-12deg) translate(-120px, 30px)", zIndex: 1 }}
           />
           {/* Middle: celular1 (Alex, blue) — slight tilt */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/mockups/celular1.png"
             alt="Biiio profile mockup"
-            className="absolute w-[210px] md:w-[240px] object-contain drop-shadow-2xl"
-            style={{ transform: "rotate(-4deg) translate(10px, -10px)", zIndex: 2 }}
+            className="absolute w-[290px] md:w-[350px] object-contain drop-shadow-2xl"
+            style={{ transform: "rotate(-3deg) translate(10px, -15px)", zIndex: 2 }}
           />
           {/* Front: celular4 (hand) — rotated right, focal point */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/mockups/celular4.png"
             alt="Biiio profile mockup"
-            className="absolute w-[230px] md:w-[260px] object-contain drop-shadow-2xl"
-            style={{ transform: "rotate(8deg) translate(90px, 30px)", zIndex: 3 }}
+            className="absolute w-[310px] md:w-[370px] object-contain drop-shadow-2xl"
+            style={{ transform: "rotate(9deg) translate(130px, 40px)", zIndex: 3 }}
           />
         </div>
       </section>
