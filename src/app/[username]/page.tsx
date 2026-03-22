@@ -77,7 +77,7 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
               key={link.id}
               link={{
                 id: link.id,
-                type: link.type || "link",
+                type: (link.type || "link") as "link" | "hero",
                 title: link.title,
                 url: link.url,
                 description: link.description || "",

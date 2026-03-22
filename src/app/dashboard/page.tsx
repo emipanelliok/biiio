@@ -40,12 +40,12 @@ export default async function DashboardPage() {
     accentColor: "#d2aef8",
     theme: profile.theme || "pastel-dream",
     socials: (socials || []).map((s: { platform: string; url: string }) => ({
-      platform: s.platform,
+      platform: s.platform as "instagram" | "tiktok" | "youtube" | "x" | "spotify" | "github" | "linkedin",
       url: s.url,
     })),
     links: (links || []).map((l: { id: string; type: string; title: string; url: string; description: string | null; emoji: string | null; active: boolean; clicks: number; sort_order: number }) => ({
       id: l.id,
-      type: l.type || "link",
+      type: (l.type || "link") as "link" | "hero",
       title: l.title,
       url: l.url,
       description: l.description || "",
