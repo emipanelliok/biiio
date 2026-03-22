@@ -16,7 +16,23 @@ const jakarta = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: "Biiio — One link for everything",
-  description: "The most beautiful link-in-bio page for creators.",
+  description: "Conectá tus redes, tu portfolio y tus links — todo en una página que se ve increíble.",
+  openGraph: {
+    title: "Biiio — One link for everything",
+    description: "Conectá tus redes, tu portfolio y tus links — todo en una página que se ve increíble.",
+    url: "https://biiio.io",
+    siteName: "Biiio",
+    images: [{ url: "/icon-512.png", width: 900, height: 900 }],
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Biiio — One link for everything",
+    description: "Conectá tus redes, tu portfolio y tus links — todo en una página que se ve increíble.",
+    images: ["/icon-512.png"],
+  },
+  manifest: "/manifest.json",
+  icons: { icon: "/icon-512.png", apple: "/icon-512.png" },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
