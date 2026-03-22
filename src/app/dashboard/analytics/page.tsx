@@ -65,12 +65,12 @@ export default function AnalyticsPage() {
   ];
 
   return (
-    <div className="p-8 md:p-12 max-w-5xl flex flex-col gap-12 relative">
+    <div className="p-4 md:p-8 lg:p-12 max-w-5xl flex flex-col gap-8 md:gap-12 relative">
 
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
-          <h1 className="font-black text-5xl tracking-tighter text-[#1c1b1b]">
+          <h1 className="font-black text-3xl md:text-5xl tracking-tighter text-[#1c1b1b]">
             Your <span className="marker">Analytics</span>
           </h1>
           <p className="text-[#7b7487] text-base font-medium mt-2">Track your performance and audience growth.</p>
@@ -111,7 +111,7 @@ export default function AnalyticsPage() {
               </div>
             </div>
             <div className="flex items-baseline gap-2">
-              <span className="text-4xl font-black tracking-tighter text-[#1c1b1b]">{kpi.value}</span>
+              <span className="text-2xl md:text-4xl font-black tracking-tighter text-[#1c1b1b]">{kpi.value}</span>
               <span
                 className="text-xs font-bold flex items-center gap-0.5"
                 style={{ color: kpi.up ? "#10b981" : "#ef4444" }}
@@ -299,7 +299,7 @@ export default function AnalyticsPage() {
 
       {/* FAB */}
       <button
-        className="fixed bottom-10 right-10 w-14 h-14 rounded-full flex items-center justify-center text-white shadow-2xl hover:scale-110 active:scale-95 transition-all z-40"
+        className="fixed bottom-20 md:bottom-10 right-4 md:right-10 w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center text-white shadow-2xl hover:scale-110 active:scale-95 transition-all z-40"
         style={{ backgroundColor: "#705092" }}
       >
         <Plus className="w-6 h-6" />
