@@ -1,8 +1,24 @@
 import { createClient } from "@/lib/supabase/server";
-import LinkCard from "@/components/profile/LinkCard";
 import SocialIcons from "@/components/profile/SocialIcons";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+
+function getButtonStyle(round: string, style: string, color: string) {
+  const radius =
+    round === "Round" ? "9999px" :
+    round === "Rounded" ? "12px" :
+    round === "Square" ? "4px" : "4px";
+  const shadow = round === "Hard Shadow" ? "4px 4px 0px #1a1c1c" : "none";
+
+  if (style === "Bold") {
+    return { backgroundColor: color, color: "#1c1b1b", borderRadius: radius, boxShadow: shadow, border: "none" };
+  }
+  if (style === "Outline") {
+    return { backgroundColor: "transparent", color: color === "#f6f3f2" ? "#1c1b1b" : color, borderRadius: radius, boxShadow: shadow, border: `2px solid ${color}` };
+  }
+  // Soft
+  return { backgroundColor: color + "20", color: color === "#f6f3f2" ? "#1c1b1b" : color, borderRadius: radius, boxShadow: shadow, border: "none" };
+}
 
 export default async function ProfilePage({ params }: { params: Promise<{ username: string }> }) {
   const { username } = await params;
@@ -33,19 +49,23 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
   const firstName = displayName.split(" ")[0];
   const lastName = displayName.split(" ").slice(1).join(" ");
 
+  // Appearance settings from DB
+  const markerColor = profile.marker_color || "#d2aef8";
+  const btnRound = profile.button_roundness || "Rounded";
+  const btnStyle = profile.button_style || "Bold";
+  const btnColor = profile.button_color || "#d2aef8";
+
   return (
     <main className="min-h-screen bg-[#fafafa] flex flex-col items-center">
       {/* Cover gradient */}
       <div
         className="w-full h-48 md:h-56"
-        style={{
-          background: "linear-gradient(135deg, #f09ba4, #f7d59e, #91cefb, #d2aef8)",
-        }}
+        style={{ background: "linear-gradient(135deg, #f09ba4, #f7d59e, #91cefb, #d2aef8)" }}
       />
 
       <div className="w-full max-w-[480px] flex flex-col gap-5 px-4 -mt-16">
         {/* Avatar + Info */}
-        <div className="flex flex-col items-start gap-4 animate-in">
+        <div className="flex flex-col items-start gap-4">
           <div className="p-1.5 rounded-2xl bg-white shadow-xl">
             <Image
               src={avatarUrl}
@@ -61,10 +81,22 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
               {lastName ? (
                 <>
                   {firstName}{" "}
-                  <span className="marker marker-violet">{lastName}</span>
+                  <span className="relative inline z-[1]">
+                    {lastName}
+                    <span
+                      className="absolute left-[-4px] right-[-4px] bottom-[2px] h-[45%] z-[-1] rounded-[3px]"
+                      style={{ backgroundColor: markerColor, transform: "rotate(-1.5deg)" }}
+                    />
+                  </span>
                 </>
               ) : (
-                <span className="marker marker-violet">{firstName}</span>
+                <span className="relative inline z-[1]">
+                  {firstName}
+                  <span
+                    className="absolute left-[-4px] right-[-4px] bottom-[2px] h-[45%] z-[-1] rounded-[3px]"
+                    style={{ backgroundColor: markerColor, transform: "rotate(-1.5deg)" }}
+                  />
+                </span>
               )}
             </h1>
             {profile.bio && (
@@ -82,23 +114,20 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
           )}
         </div>
 
-        {/* Links */}
+        {/* Links — using saved button styles */}
         <div className="flex flex-col gap-3 mt-2">
-          {(links || []).map((link: { id: string; type: string; title: string; url: string; description: string | null; emoji: string | null; clicks: number }, i: number) => (
-            <LinkCard
+          {(links || []).map((link: { id: string; title: string; url: string; emoji: string | null }) => (
+            <a
               key={link.id}
-              link={{
-                id: link.id,
-                type: (link.type || "link") as "link" | "hero",
-                title: link.title,
-                url: link.url,
-                description: link.description || "",
-                emoji: link.emoji || undefined,
-                active: true,
-                clicks: link.clicks || 0,
-              }}
-              index={i}
-            />
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full py-4 px-6 text-center font-bold text-sm transition-all hover:scale-[1.02] hover:shadow-lg flex items-center justify-center gap-2"
+              style={getButtonStyle(btnRound, btnStyle, btnColor)}
+            >
+              {link.emoji && <span>{link.emoji}</span>}
+              {link.title}
+            </a>
           ))}
         </div>
 
