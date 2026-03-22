@@ -58,12 +58,13 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
 
           <div>
             <h1 className="font-black text-4xl tracking-tighter text-[#1c1b1b] mb-2">
-              {firstName}
-              {lastName && (
+              {lastName ? (
                 <>
-                  {" "}
+                  {firstName}{" "}
                   <span className="marker marker-violet">{lastName}</span>
                 </>
+              ) : (
+                <span className="marker marker-violet">{firstName}</span>
               )}
             </h1>
             {profile.bio && (

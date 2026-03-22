@@ -11,13 +11,51 @@ const themes = [
   { id: "matcha-latte", name: "Matcha Latte", tag: "ORGANIC TONES", bg: "#f5f5e8", accent: "#8fb87a", card: "#eaeed8", pro: true },
 ];
 
-const roundness = ["Round", "Rounded", "Square", "Hard Shadow"];
-const styles = ["Bold", "Outline", "Soft"];
-const colors = ["#d2aef8", "#1a1c1c", "#91cefb", "#f09ba4", "#f7d59e", "#f6f3f2"];
+const roundnessOpts = ["Round", "Rounded", "Square", "Hard Shadow"];
+const styleOpts = ["Bold", "Outline", "Soft"];
+const colorOpts = ["#d2aef8", "#1a1c1c", "#91cefb", "#f09ba4", "#f7d59e", "#f6f3f2"];
+
+// Helper: get button styles for preview
+function getButtonStyle(round: string, style: string, color: string, isFirst: boolean) {
+  const radius =
+    round === "Round" ? "9999px" :
+    round === "Rounded" ? "12px" :
+    round === "Square" ? "4px" :
+    "4px"; // Hard Shadow
+
+  const shadow = round === "Hard Shadow" ? `4px 4px 0px ${color}` : "none";
+
+  if (style === "Bold") {
+    return {
+      backgroundColor: isFirst ? color : color,
+      color: isFirst ? "#1c1b1b" : "#1c1b1b",
+      borderRadius: radius,
+      boxShadow: shadow,
+      border: "none",
+    };
+  }
+  if (style === "Outline") {
+    return {
+      backgroundColor: "transparent",
+      color: color === "#f6f3f2" ? "#1c1b1b" : color,
+      borderRadius: radius,
+      boxShadow: shadow,
+      border: `2px solid ${color}`,
+    };
+  }
+  // Soft
+  return {
+    backgroundColor: color + "20",
+    color: color === "#f6f3f2" ? "#1c1b1b" : color,
+    borderRadius: radius,
+    boxShadow: shadow,
+    border: "none",
+  };
+}
 
 export default function ThemesPage() {
   const [activeTheme, setActiveTheme] = useState("pastel-dream");
-  const [activeRound, setActiveRound] = useState("Pill");
+  const [activeRound, setActiveRound] = useState("Rounded");
   const [activeStyle, setActiveStyle] = useState("Bold");
   const [activeColor, setActiveColor] = useState("#d2aef8");
   const [saving, setSaving] = useState(false);
@@ -31,6 +69,10 @@ export default function ThemesPage() {
     setSaved(true);
     setTimeout(() => setSaved(false), 3000);
   }
+
+  const currentTheme = themes.find(t => t.id === activeTheme)!;
+  const isDark = activeTheme === "cyber-night";
+  const previewLabels = ["Latest Portfolio", "Reading List", "Monthly Newsletter"];
 
   return (
     <div className="min-h-screen bg-[#f9f9f9] flex flex-col">
@@ -59,7 +101,7 @@ export default function ThemesPage() {
               <h3 className="font-black text-2xl tracking-tighter text-[#1a1c1c]">Choose your <span className="marker">vibe</span></h3>
               <span className="text-xs font-bold text-[#7c7480] bg-[#eeeeee] px-3 py-1 rounded-full">6 PRESETS</span>
             </div>
-            <p className="text-[#4a454f] text-sm mb-6">Select a curated theme that matches your brand's personality or create a custom look from scratch.</p>
+            <p className="text-[#4a454f] text-sm mb-6">Select a curated theme that matches your brand&apos;s personality or create a custom look from scratch.</p>
 
             <div className="grid grid-cols-3 gap-4">
               {themes.map((theme) => (
@@ -91,11 +133,10 @@ export default function ThemesPage() {
                 </button>
               ))}
 
-              {/* Custom theme */}
-              <button className="rounded-2xl border-2 border-dashed border-[#cdc3d0] h-[160px] flex flex-col items-center justify-center gap-2 hover:border-[#d2aef8] transition-colors">
+              <button className="rounded-2xl border-2 border-dashed border-[#cdc3d0] h-[160px] flex flex-col items-center justify-center gap-2 hover:border-[#d2aef8] transition-colors cursor-not-allowed opacity-60">
                 <span className="text-2xl text-[#cdc3d0]">+</span>
                 <p className="text-xs font-bold text-[#7c7480]">Custom Theme</p>
-                <p className="text-[9px] text-[#cdc3d0]">Build your own →</p>
+                <p className="text-[9px] text-[#cdc3d0]">Coming soon</p>
               </button>
             </div>
           </div>
@@ -109,8 +150,8 @@ export default function ThemesPage() {
             <div className="grid grid-cols-2 gap-8 mb-6">
               <div>
                 <label className="text-[10px] font-bold uppercase tracking-widest text-[#7c7480] block mb-3">Button Roundness</label>
-                <div className="flex gap-2">
-                  {roundness.map(r => (
+                <div className="flex gap-2 flex-wrap">
+                  {roundnessOpts.map(r => (
                     <button
                       key={r}
                       onClick={() => setActiveRound(r)}
@@ -126,7 +167,7 @@ export default function ThemesPage() {
               <div>
                 <label className="text-[10px] font-bold uppercase tracking-widest text-[#7c7480] block mb-3">Visual Style</label>
                 <div className="flex gap-2">
-                  {styles.map(s => (
+                  {styleOpts.map(s => (
                     <button
                       key={s}
                       onClick={() => setActiveStyle(s)}
@@ -144,7 +185,7 @@ export default function ThemesPage() {
             <div>
               <label className="text-[10px] font-bold uppercase tracking-widest text-[#7c7480] block mb-3">Button Color</label>
               <div className="flex gap-3 items-center">
-                {colors.map(c => (
+                {colorOpts.map(c => (
                   <button
                     key={c}
                     onClick={() => setActiveColor(c)}
@@ -156,47 +197,66 @@ export default function ThemesPage() {
                     }}
                   />
                 ))}
-                <button className="w-8 h-8 rounded-full border-2 border-dashed border-[#cdc3d0] flex items-center justify-center text-xs text-[#7c7480] hover:border-[#d2aef8] transition-colors">
-                  +
-                </button>
               </div>
             </div>
           </div>
         </div>
 
         {/* Right: phone preview */}
-        <div className="w-72 flex-shrink-0 flex flex-col items-center pt-10 pb-8 border-l border-black/[0.04]">
-          <div className="w-[180px]">
-            <div className="rounded-[2rem] border-[5px] border-[#1a1c1c] overflow-hidden shadow-2xl" style={{ height: 360, backgroundColor: themes.find(t => t.id === activeTheme)?.bg || "#fcf9f8" }}>
-              <div className="h-full flex flex-col items-center pt-8 px-4 gap-3">
-                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#d2aef8] to-[#91cefb]" />
-                <p className="font-black text-xs text-[#1a1c1c] tracking-tight">@curated_ink</p>
-                <p className="text-[9px] text-[#7c7480] text-center">Digital Creator & Curator</p>
-                {["Latest Work ✦", "Book a Consultation", "My Gear List"].map((label, i) => (
-                  <div
-                    key={label}
-                    className="w-full py-2 text-center text-[10px] font-bold text-[#1c1b1b]"
-                    style={{
-                      backgroundColor: i === 0 ? activeColor : themes.find(t => t.id === activeTheme)?.card || "#f0eaff",
-                      borderRadius: activeRound === "Pill" ? "9999px" : activeRound === "Rounded" ? "12px" : "4px",
-                    }}
-                  >{label}</div>
-                ))}
+        <div className="w-80 flex-shrink-0 flex flex-col items-center pt-10 pb-8 border-l border-black/[0.04] bg-[#f3f3f3]">
+          <div className="w-[220px]">
+            <div className="rounded-[2rem] border-[5px] border-[#1a1c1c] overflow-hidden shadow-2xl" style={{ height: 440, backgroundColor: currentTheme.bg }}>
+              {/* Cover gradient */}
+              <div
+                className="w-full h-20"
+                style={{ background: "linear-gradient(135deg, #f09ba4, #f7d59e, #91cefb, #d2aef8)" }}
+              />
+
+              <div className="px-4 -mt-6 pb-4 flex flex-col items-start gap-2">
+                {/* Avatar */}
+                <div className="p-1 rounded-xl bg-white shadow-lg">
+                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[#d2aef8] to-[#91cefb]" />
+                </div>
+
+                {/* Name */}
+                <p className="font-black text-sm tracking-tight" style={{ color: isDark ? "#fff" : "#1c1b1b" }}>
+                  Alex <span className="marker marker-violet">Rivers</span>
+                </p>
+                <p className="text-[9px] mb-2" style={{ color: isDark ? "#888" : "#7c7480" }}>Digital Curator & Designer</p>
+
+                {/* Buttons — reflect all settings */}
+                <div className="flex flex-col gap-2 w-full">
+                  {previewLabels.map((label, i) => (
+                    <div
+                      key={label}
+                      className="w-full py-2.5 px-3 text-center text-[10px] font-bold transition-all"
+                      style={getButtonStyle(activeRound, activeStyle, i === 0 ? activeColor : (activeStyle === "Bold" ? currentTheme.card : activeColor), i === 0)}
+                    >
+                      {label}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Preview label */}
+                <p className="text-[8px] uppercase tracking-widest font-bold mt-2 w-full text-center" style={{ color: isDark ? "#555" : "#cdc3d0" }}>
+                  Previewing {activeRound} style
+                </p>
               </div>
             </div>
           </div>
           <p className="text-[10px] font-bold uppercase tracking-widest text-[#7c7480] mt-4">Live Preview</p>
+          <p className="text-[9px] text-[#cdc3d0] mt-1">Changes reflect instantly on your public URL.</p>
         </div>
       </div>
 
       {/* Save bar */}
       <div className="sticky bottom-0 bg-[#1a1c1c] px-10 py-4 flex items-center justify-between">
         <div className="flex items-center gap-2 text-white text-sm">
-          <span className="text-[#d2aef8]">✦</span>
-          Unsaved Changes — Previewing <span className="text-[#d2aef8] font-bold ml-1">{themes.find(t => t.id === activeTheme)?.name}</span>
+          <span className="text-[#f7d59e]">✦</span>
+          Unsaved Changes — Previewing <span className="text-[#d2aef8] font-bold ml-1">{currentTheme.name}</span>
         </div>
         <div className="flex gap-3">
-          <button onClick={() => setActiveTheme("pastel-dream")} className="px-6 py-2.5 rounded-full text-[#cdc3d0] font-bold text-sm hover:text-white transition-colors">Discard</button>
+          <button onClick={() => { setActiveTheme("pastel-dream"); setActiveRound("Rounded"); setActiveStyle("Bold"); setActiveColor("#d2aef8"); }} className="px-6 py-2.5 rounded-full text-[#cdc3d0] font-bold text-sm hover:text-white transition-colors">Discard</button>
           <button onClick={handleSave} disabled={saving} className="px-6 py-2.5 bg-[#d2aef8] text-[#1c1b1b] rounded-full font-black text-sm hover:opacity-90 transition-opacity shadow-lg disabled:opacity-50">
             {saving ? "Saving..." : saved ? "✓ Saved!" : "Save Changes"}
           </button>
